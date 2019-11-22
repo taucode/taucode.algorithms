@@ -16,11 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{321F21C0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{44EC8298-BED4-4137-8378-95ADA7810659}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FB60BD56-A58F-4C78-9B1D-E54EC36D1BB2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FB60BD56-A58F-4C78-9B1D-E54EC36D1BB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TauCode.Algorithms", "src\TauCode.Algorithms\TauCode.Algorithms.csproj", "{7871187B-BB47-48C0-88CA-BC1618405FB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TauCode.Algorithms", "src\TauCode.Algorithms\TauCode.Algorithms.csproj", "{7871187B-BB47-48C0-88CA-BC1618405FB3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TauCode.Algorithms.Test", "test\TauCode.Algorithms.Test\TauCode.Algorithms.Test.csproj", "{2CCB10E2-95A6-4998-858D-4A59F864E39C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TauCode.Algorithms.Tests", "tests\TauCode.Algorithms.Tests\TauCode.Algorithms.Tests.csproj", "{7BEE7794-9BC6-4125-B772-702D788D4F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,17 +32,17 @@ Global
 		{7871187B-BB47-48C0-88CA-BC1618405FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7871187B-BB47-48C0-88CA-BC1618405FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7871187B-BB47-48C0-88CA-BC1618405FB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CCB10E2-95A6-4998-858D-4A59F864E39C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CCB10E2-95A6-4998-858D-4A59F864E39C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CCB10E2-95A6-4998-858D-4A59F864E39C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CCB10E2-95A6-4998-858D-4A59F864E39C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BEE7794-9BC6-4125-B772-702D788D4F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BEE7794-9BC6-4125-B772-702D788D4F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BEE7794-9BC6-4125-B772-702D788D4F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BEE7794-9BC6-4125-B772-702D788D4F6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7871187B-BB47-48C0-88CA-BC1618405FB3} = {44EC8298-BED4-4137-8378-95ADA7810659}
-		{2CCB10E2-95A6-4998-858D-4A59F864E39C} = {FB60BD56-A58F-4C78-9B1D-E54EC36D1BB2}
+		{7BEE7794-9BC6-4125-B772-702D788D4F6C} = {FB60BD56-A58F-4C78-9B1D-E54EC36D1BB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF3AD110-E91F-460E-BDE5-5BEEC59ABFF9}
