@@ -7,7 +7,7 @@ using TauCode.Algorithms.Graphs;
 namespace TauCode.Algorithms.Tests
 {
     [TestFixture]
-    public class GraphTest : GraphTestBase
+    public class GraphTests : GraphTestBase
     {
         #region Constructor
 

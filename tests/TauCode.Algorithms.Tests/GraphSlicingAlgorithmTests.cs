@@ -6,7 +6,7 @@ using TauCode.Algorithms.Graphs;
 namespace TauCode.Algorithms.Tests
 {
     [TestFixture]
-    public class GraphSlicingAlgorithmTest : GraphTestBase
+    public class GraphSlicingAlgorithmTests : GraphTestBase
     {
         [Test]
         public void Constructor_ValidArgument_RunsOk()

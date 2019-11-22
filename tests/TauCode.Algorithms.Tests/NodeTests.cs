@@ -5,7 +5,7 @@ using TauCode.Algorithms.Graphs;
 namespace TauCode.Algorithms.Tests
 {
     [TestFixture]
-    public class NodeTest : GraphTestBase
+    public class NodeTests : GraphTestBase
     {
         [Test]
         public void DrawEdgeTo_ValidNode_DrawsEdge()
