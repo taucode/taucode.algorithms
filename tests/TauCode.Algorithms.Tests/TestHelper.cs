@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Linq;
+using NUnit.Framework;
 using TauCode.Algorithms.Graphs;
 
-namespace TauCode.Algorithms.Test
+namespace TauCode.Algorithms.Tests
 {
     internal static class TestHelper
     {
