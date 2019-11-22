@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using TauCode.Algorithms.Graphs;
 
-namespace TauCode.Algorithms.Test
+namespace TauCode.Algorithms.Tests
 {
     [TestFixture]
     public class GraphTestBase

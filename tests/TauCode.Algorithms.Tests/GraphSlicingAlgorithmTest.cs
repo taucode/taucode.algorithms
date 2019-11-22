@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using TauCode.Algorithms.Graphs;
 
-namespace TauCode.Algorithms.Test
+namespace TauCode.Algorithms.Tests
 {
     [TestFixture]
     public class GraphSlicingAlgorithmTest : GraphTestBase
