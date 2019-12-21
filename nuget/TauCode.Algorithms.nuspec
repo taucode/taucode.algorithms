@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Algorithms</id>
-    <version>1.0.0.0-dev-2019-12-21-08-40</version>
+    <version>1.0.0.0-dev-2019-12-21-20-57</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/taucode/taucode.algorithms</projectUrl>
     <description>TauCode algorithms</description>
     <releaseNotes>
-      TODO: migrating to nuget.org
+      Migrating to nuget.org
     </releaseNotes>
     <tags>taucode algorithms</tags>
     <dependencies>
