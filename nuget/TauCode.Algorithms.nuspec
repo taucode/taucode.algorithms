@@ -2,21 +2,22 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Algorithms</id>
-    <version>3.0.1</version>
+    <version>1.0.0.0-dev-2019-12-21-08-40</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <license type="file">LICENSE.txt</license>
     <projectUrl>http://taucode.com/</projectUrl>
     <description>TauCode algorithms</description>
     <releaseNotes>
-      1. Minor changes
+      TODO: migrating to nuget.org
     </releaseNotes>
     <tags>taucode algorithms</tags>
     <dependencies>
     </dependencies>
   </metadata>
   <files>
+    <file src="..\LICENSE.txt" target="" />
     <file src="..\src\TauCode.Algorithms\bin\Release\netstandard2.0\TauCode.Algorithms.dll" target="lib\netstandard2.0" />
     <file src="..\src\TauCode.Algorithms\bin\Release\netstandard2.0\TauCode.Algorithms.pdb" target="lib\netstandard2.0" />
   </files>
