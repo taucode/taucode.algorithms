@@ -36,4 +36,4 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'custom'
-    arguments: 'push TauCode.Algorithms.nupkg -ApiKey oy2g7hrumbrsiwljp2tqgquyzibcr2oelheouurioxbn2m -Source https://api.nuget.org/v3/index.json'
+    arguments: 'push src\TauCode.Algorithms\bin\Release\TauCode.Algorithms.1.0.0-dev-2020-03-13-14-49.nupkg -ApiKey oy2g7hrumbrsiwljp2tqgquyzibcr2oelheouurioxbn2m -Source https://api.nuget.org/v3/index.json'
