@@ -36,4 +36,4 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'custom'
-    arguments: 'dotnet nuget push TauCode.Algorithms.nupkg -k oy2g7hrumbrsiwljp2tqgquyzibcr2oelheouurioxbn2m -s https://api.nuget.org/v3/index.json'
+    arguments: 'push TauCode.Algorithms.nupkg -k oy2g7hrumbrsiwljp2tqgquyzibcr2oelheouurioxbn2m -s https://api.nuget.org/v3/index.json'
