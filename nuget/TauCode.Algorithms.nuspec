@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Algorithms</id>
-    <version>1.0.0.0-dev-2020-03-14-19-32</version>
+    <version>1.0.0.0-dev-2020-03-15-20-21</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,11 +14,12 @@
     </releaseNotes>
     <tags>taucode algorithms</tags>
     <dependencies>
+      <group targetFramework=".NETStandard2.1" />
     </dependencies>
   </metadata>
   <files>
     <file src="..\LICENSE.txt" target="" />
-    <file src="..\src\TauCode.Algorithms\bin\Release\netstandard2.0\TauCode.Algorithms.dll" target="lib\netstandard2.0" />
-    <file src="..\src\TauCode.Algorithms\bin\Release\netstandard2.0\TauCode.Algorithms.pdb" target="lib\netstandard2.0" />
+    <file src="..\src\TauCode.Algorithms\bin\Release\netstandard2.1\TauCode.Algorithms.dll" target="lib\netstandard2.1" />
+    <file src="..\src\TauCode.Algorithms\bin\Release\netstandard2.1\TauCode.Algorithms.pdb" target="lib\netstandard2.1" />
   </files>
 </package>
