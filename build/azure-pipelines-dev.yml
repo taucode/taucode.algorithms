@@ -31,6 +31,12 @@ steps:
       #nuget push "$b" -ApiKey az_dummy -Source "taucode"'
       #nuget push $(Build.ArtifactStagingDirectory)\$(a) -ApiKey az_dummy -Source "taucode"'
 
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $b
+
 - task: NuGetCommand@2
   inputs:
     command: 'custom'
