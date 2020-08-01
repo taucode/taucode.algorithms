@@ -24,7 +24,7 @@ steps:
       
       $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\*.nupkg
       $a
-      Write-Host "$($(Build.ArtifactStagingDirectory))"
+      Write-Host "$(Build.ArtifactStagingDirectory)"
       #nuget push $(Build.ArtifactStagingDirectory)\$(a) -ApiKey az_dummy -Source "taucode"'
 
 
