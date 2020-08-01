@@ -45,8 +45,8 @@ steps:
     script: |
       # Write your PowerShell commands here.
       
-      dir $(Build.ArtifactStagingDirectory)
-      nuget
+      $a = cmd /r dir /b *.nupkg
+      $a
 
 - task: NuGetCommand@2
   inputs:
