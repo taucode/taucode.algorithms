@@ -35,4 +35,5 @@ steps:
   inputs:
     command: 'custom'
     #arguments: 'push $(Build.ArtifactStagingDirectory)\TauCode.Algorithms.1.0.0-dev-2020-08-01-21-25.nupkg -ApiKey az_dummy -Source "taucode"'
-    arguments: 'push "$b" -ApiKey az_dummy -Source "taucode"'
+    #arguments: 'push "$b" -ApiKey az_dummy -Source "taucode"'
+    arguments: $b
