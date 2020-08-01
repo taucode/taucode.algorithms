@@ -50,7 +50,7 @@ steps:
       #$(Build.ArtifactStagingDirectory)
       $b = "$(Build.ArtifactStagingDirectory)\$a"
       $b
-      nuget push $b -ApiKey az_dummy -Source "taucode"'
+      nuget push "$b" -ApiKey az_dummy -Source "taucode"'
       #nuget push $(Build.ArtifactStagingDirectory)\$(a) -ApiKey az_dummy -Source "taucode"'
 
 - task: NuGetCommand@2
