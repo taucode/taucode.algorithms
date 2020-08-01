@@ -38,6 +38,7 @@ steps:
     script: |
       $env:PACKAGENAME = "kabzda"
       Write-Host $(packageName)
+      Write-Host $env:PACKAGENAME
 
 
 
