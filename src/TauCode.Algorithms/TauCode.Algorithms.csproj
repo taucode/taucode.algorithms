@@ -1,25 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0.0-dev-2020-03-13-14-49</Version>
-    <Authors>TauCode</Authors>
-    <Company>TauCode</Company>
-    <PackageTags>taucode algorithms</PackageTags>
-    <Description>TauCode algorithms</Description>
-    <Copyright>© TauCode 2020</Copyright>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/taucode/taucode.algorithms</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/taucode/taucode.algorithms</RepositoryUrl>
-    <PackageReleaseNotes>Bumped version.</PackageReleaseNotes>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\..\LICENSE.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
 
 </Project>
