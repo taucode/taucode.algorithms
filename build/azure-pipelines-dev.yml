@@ -46,6 +46,7 @@ steps:
       # Write your PowerShell commands here.
       
       dir $(Build.ArtifactStagingDirectory)
+      nuget
 
 - task: NuGetCommand@2
   inputs:
