@@ -42,7 +42,8 @@ steps:
       $env:PACKAGENAME = "kabzda"
       Write-Host $(packageName)
       Write-Host $env:PACKAGENAME
-      echo '##vso[task.setvariable variable=packageName]watze_fak'
+      $a = "TauCode.Algorithms.1.0.0-dev-2020-08-01-21-25.nupkg"
+      echo '##vso[task.setvariable variable=packageName]$a'
 
 
 
