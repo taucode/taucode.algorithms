@@ -45,7 +45,8 @@ steps:
     script: |
       # Write your PowerShell commands here.
       
-      $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\*.nupkg
+      #$a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\*.nupkg
+      $a = "TauCode.Algorithms.1.0.0-dev-2020-08-01-21-25.nupkg"
       $a
       #$(Build.ArtifactStagingDirectory)
       $b = "$(Build.ArtifactStagingDirectory)\$a"
