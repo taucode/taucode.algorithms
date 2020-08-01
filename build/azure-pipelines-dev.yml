@@ -47,6 +47,7 @@ steps:
       
       $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\*.nupkg
       $a
+      nuget push $(Build.ArtifactStagingDirectory)\$a -ApiKey az_dummy -Source "taucode"'
 
 - task: NuGetCommand@2
   inputs:
