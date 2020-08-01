@@ -36,7 +36,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $b
+      $env:packageName = "kabzda"
 
 - task: NuGetCommand@2
   inputs:
