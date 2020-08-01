@@ -17,6 +17,8 @@ variables:
 
 steps:
 
+- script: echo '##vso[task.setvariable variable=one]secondValue'
+
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -31,6 +33,7 @@ steps:
       $b
       #nuget push "$b" -ApiKey az_dummy -Source "taucode"'
       #nuget push $(Build.ArtifactStagingDirectory)\$(a) -ApiKey az_dummy -Source "taucode"'
+      ##vso[task.setvariable variable=one]secondValue
 
 - task: PowerShell@2
   inputs:
@@ -39,6 +42,7 @@ steps:
       $env:PACKAGENAME = "kabzda"
       Write-Host $(packageName)
       Write-Host $env:PACKAGENAME
+      echo '##vso[task.setvariable variable=packageName]watze_fak'
 
 
 
@@ -47,5 +51,5 @@ steps:
     command: 'custom'
     #arguments: 'push $(Build.ArtifactStagingDirectory)\TauCode.Algorithms.1.0.0-dev-2020-08-01-21-25.nupkg -ApiKey az_dummy -Source "taucode"'
     #arguments: 'push "$b" -ApiKey az_dummy -Source "taucode"'
-    arguments: 'push %PACKAGENAME%'
+    arguments: 'push $(packageName)'
 
