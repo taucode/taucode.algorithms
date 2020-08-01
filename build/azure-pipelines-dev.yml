@@ -15,29 +15,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'pack'
-    packagesToPack: 'nuget\TauCode.Algorithms.nuspec'
-    versioningScheme: 'off'
 
 - task: PowerShell@2
   inputs:
@@ -47,11 +24,7 @@ steps:
       
       $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\*.nupkg
       $a
-      $(Build.ArtifactStagingDirectory)
+      Write-Host "$($(Build.ArtifactStagingDirectory))"
       #nuget push $(Build.ArtifactStagingDirectory)\$(a) -ApiKey az_dummy -Source "taucode"'
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'custom'
-    arguments: 'push $(Build.ArtifactStagingDirectory)\TauCode.Algorithms.1.0.0-dev-2020-08-01-21-25.nupkg -ApiKey az_dummy -Source "taucode"'
 
