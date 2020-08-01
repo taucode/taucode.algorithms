@@ -37,6 +37,9 @@ steps:
     targetType: 'inline'
     script: |
       $env:packageName = "kabzda"
+      Write-Host $(packageName)
+
+
 
 - task: NuGetCommand@2
   inputs:
