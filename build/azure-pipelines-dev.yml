@@ -48,6 +48,8 @@ steps:
       $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\*.nupkg
       $a
       #$(Build.ArtifactStagingDirectory)
+      $b = "$(Build.ArtifactStagingDirectory)\$a"
+      $b
       nuget push "$(Build.ArtifactStagingDirectory)\$a" -ApiKey az_dummy -Source "taucode"'
       #nuget push $(Build.ArtifactStagingDirectory)\$(a) -ApiKey az_dummy -Source "taucode"'
 
