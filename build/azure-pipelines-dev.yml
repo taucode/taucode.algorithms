@@ -26,7 +26,7 @@ steps:
       $a = "MyPackage.nupkg"
       $a
       Write-Host "$(Build.ArtifactStagingDirectory)"
-      Write-Host "$($assoc.Id)\$a"
+      Write-Host "$(Build.ArtifactStagingDirectory)\$a"
       #nuget push $(Build.ArtifactStagingDirectory)\$(a) -ApiKey az_dummy -Source "taucode"'
 
 
