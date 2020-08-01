@@ -43,7 +43,7 @@ steps:
       Write-Host $(packageName)
       Write-Host $env:PACKAGENAME
       $a = "TauCode.Algorithms.1.0.0-dev-2020-08-01-21-25.nupkg"
-      $echo_string = "$(Build.ArtifactStagingDirectory)\$a"
+      $echo_string = "##vso[task.setvariable variable=packageName]$(Build.ArtifactStagingDirectory)\$a"
       $echo_string
       #echo '##vso[task.setvariable variable=packageName]$a'
       echo $echo_string
