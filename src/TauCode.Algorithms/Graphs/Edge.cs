@@ -6,8 +6,8 @@ namespace TauCode.Algorithms.Graphs
     {
         #region Fields
 
-        private readonly Node<T> _from;
-        private readonly Node<T> _to;
+        private Node<T> _from;
+        private Node<T> _to;
         private bool _isAlive;
 
         #endregion
@@ -31,10 +31,7 @@ namespace TauCode.Algorithms.Graphs
         {
             get
             {
-                if (!_isAlive)
-                {
-                    throw new NotImplementedException(); // todo: 'CheckIsAlive'
-                }
+                this.CheckAlive();
 
                 return _from;
             }
@@ -44,10 +41,7 @@ namespace TauCode.Algorithms.Graphs
         {
             get
             {
-                if (!_isAlive)
-                {
-                    throw new NotImplementedException(); // todo
-                }
+                this.CheckAlive();
 
                 return _to;
             }
@@ -55,12 +49,27 @@ namespace TauCode.Algorithms.Graphs
 
         public void Disappear()
         {
-            if (!_isAlive)
-            {
-                throw new NotImplementedException(); // todo
-            }
+            this.CheckAlive();
+
+            _from.RemoveOutgoingEdge(this);
+            _to.RemoveIncomingEdge(this);
+
+            _from = null;
+            _to = null;
 
             _isAlive = false;
+        }
+
+        #endregion
+
+        #region Private
+
+        private void CheckAlive()
+        {
+            if (!_isAlive)
+            {
+                throw new InvalidOperationException("Edge is not alive.");
+            }
         }
 
         #endregion

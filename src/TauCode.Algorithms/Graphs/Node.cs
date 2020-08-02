@@ -54,5 +54,19 @@ namespace TauCode.Algorithms.Graphs
         public IReadOnlyCollection<IEdge<T>> IncomingEdges => _incomingEdges;
 
         #endregion
+
+        #region Internal
+
+        internal void RemoveOutgoingEdge(Edge<T> outgoingEdge)
+        {
+            _outgoingEdges.Remove(outgoingEdge);
+        }
+
+        internal void RemoveIncomingEdge(Edge<T> incomingEdge)
+        {
+            _incomingEdges.Remove(incomingEdge);
+        }
+
+        #endregion
     }
 }
