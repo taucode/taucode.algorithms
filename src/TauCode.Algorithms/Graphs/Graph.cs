@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace TauCode.Algorithms.Graphs
 {
     [DebuggerDisplay("{" + nameof(Name) + "}")]
-    public class Graph<T> : IGraph<T>
+    public class Graph<T>
     {
         #region Nested
 
         private class NodeData
         {
-            internal NodeData(INode<T> node)
+            internal NodeData(Node<T> node)
             {
                 this.Node = node;
-                this.OutgoingEdges = new HashSet<IEdge<T>>();
-                this.IncomingEdges = new HashSet<IEdge<T>>();
+                this.OutgoingEdges = new HashSet<Edge<T>>();
+                this.IncomingEdges = new HashSet<Edge<T>>();
             }
 
-            private INode<T> Node { get; }
-            internal HashSet<IEdge<T>> OutgoingEdges { get; }
-            internal HashSet<IEdge<T>> IncomingEdges { get; }
+            private Node<T> Node { get; }
+            internal HashSet<Edge<T>> OutgoingEdges { get; }
+            internal HashSet<Edge<T>> IncomingEdges { get; }
 
-            internal void AddOutgoingEdge(IEdge<T> edge)
+            internal void AddOutgoingEdge(Edge<T> edge)
             {
                 this.OutgoingEdges.Add(edge);
             }
 
-            internal void AddIncomingEdge(IEdge<T> edge)
+            internal void AddIncomingEdge(Edge<T> edge)
             {
                 this.IncomingEdges.Add(edge);
             }
@@ -38,9 +37,8 @@ namespace TauCode.Algorithms.Graphs
 
         #region Fields
 
-        private readonly Dictionary<INode<T>, NodeData> _nodes;
-        private readonly HashSet<IEdge<T>> _edges;
-        private INodeFactory<T> _nodeFactory;
+        private readonly Dictionary<Node<T>, NodeData> _nodes;
+        private readonly HashSet<Edge<T>> _edges;
 
         #endregion
 
@@ -49,246 +47,199 @@ namespace TauCode.Algorithms.Graphs
         public Graph()
         {
             this.Cloner = DefaultCloner;
-            _nodes = new Dictionary<INode<T>, NodeData>();
-            _edges = new HashSet<IEdge<T>>();
+            _nodes = new Dictionary<Node<T>, NodeData>();
+            _edges = new HashSet<Edge<T>>();
             this.Name = "";
-            _nodeFactory = new DefaultNodeFactory<T>(this);
         }
 
         #endregion
 
-        #region IGraph<T> Members
+        #region Public
 
         public string Name { get; set; }
 
         public Func<T, T> Cloner { get; set; }
 
-        public INodeFactory<T> NodeFactory
+        public Node<T> AddNode(T value)
         {
-            get => _nodeFactory;
-            set => _nodeFactory = value ?? throw new ArgumentException($"'{nameof(NodeFactory)}' property must not be 'null'.", nameof(value));
-        }
-
-        public INode<T> AddNode(T value)
-        {
-            var node = _nodeFactory.CreateNode(value);
-            if (!Equals(node.Graph, this))
-            {
-                throw new GraphIntegrityViolationException("bad node"); // todo
-            }
-
-            //var node = new Node<T>(this, value);
+            var node = new Node<T>(this, value);
             var nodeData = new NodeData(node);
+
             _nodes.Add(node, nodeData);
 
             return node;
         }
 
-        public void RemoveNode(INode<T> node)
+        public IReadOnlyCollection<Node<T>> Nodes => _nodes.Keys;
+
+        public IReadOnlyCollection<Edge<T>> Edges => _edges;
+
+        public void RemoveNode(Node<T> node)
         {
-            throw new NotImplementedException();
+            if (node == null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            this.CheckNode(node);
+
+            var data = _nodes[node];
+
+            // deal with outgoing edges
+            foreach (var outgoingEdge in data.OutgoingEdges)
+            {
+                var to = outgoingEdge.To;
+                var dataTo = _nodes[to];
+
+                var removed = dataTo.IncomingEdges.Remove(outgoingEdge);
+                if (!removed)
+                {
+                    throw new GraphIntegrityViolationException();
+                }
+
+                removed = _edges.Remove(outgoingEdge);
+                if (!removed)
+                {
+                    throw new GraphIntegrityViolationException();
+                }
+            }
+
+            // deal with incoming edges
+            foreach (var incomingEdge in data.IncomingEdges)
+            {
+                var from = incomingEdge.From;
+                var dataFrom = _nodes[from];
+                var removed = dataFrom.OutgoingEdges.Remove(incomingEdge);
+                if (!removed)
+                {
+                    throw new GraphIntegrityViolationException();
+                }
+
+                removed = _edges.Remove(incomingEdge);
+                if (!removed)
+                {
+                    throw new GraphIntegrityViolationException();
+                }
+            }
+
+            // remove & invalidate node
+            node.Graph = null;
+            _nodes.Remove(node);
         }
 
-        //public void RemoveNode(INode<T> node)
-        //{
-        //    if (node == null)
-        //    {
-        //        throw new ArgumentNullException(nameof(node));
-        //    }
-
-        //    this.CheckNode(node);
-
-        //    var data = _nodes[node];
-
-        //    // deal with outgoing edges
-        //    foreach (var outgoingEdge in data.OutgoingEdges)
-        //    {
-        //        var to = outgoingEdge.To;
-        //        var dataTo = _nodes[to];
-
-        //        var removed = dataTo.IncomingEdges.Remove(outgoingEdge);
-        //        if (!removed)
-        //        {
-        //            throw new GraphIntegrityViolationException();
-        //        }
-
-        //        removed = _edges.Remove(outgoingEdge);
-        //        if (!removed)
-        //        {
-        //            throw new GraphIntegrityViolationException();
-        //        }
-        //    }
-
-        //    // deal with incoming edges
-        //    foreach (var incomingEdge in data.IncomingEdges)
-        //    {
-        //        var from = incomingEdge.From;
-        //        var dataFrom = _nodes[from];
-        //        var removed = dataFrom.OutgoingEdges.Remove(incomingEdge);
-        //        if (!removed)
-        //        {
-        //            throw new GraphIntegrityViolationException();
-        //        }
-
-        //        removed = _edges.Remove(incomingEdge);
-        //        if (!removed)
-        //        {
-        //            throw new GraphIntegrityViolationException();
-        //        }
-        //    }
-
-        //    // remove & invalidate node
-        //    node.Graph = null;
-        //    _nodes.Remove(node);
-        //}
-
-        public IEdge<T> DrawEdge(INode<T> from, INode<T> to)
+        public void RemoveEdge(Edge<T> edge)
         {
-            if (from == null)
+            if (edge == null)
             {
-                throw new ArgumentNullException(nameof(from));
+                throw new ArgumentNullException(nameof(edge));
             }
 
-            if (to == null)
+            if (!_edges.Contains(edge))
             {
-                throw new ArgumentNullException(nameof(to));
+                throw new ArgumentException("Edge does not belong to the given graph", nameof(edge));
             }
 
-            this.CheckNode(from);
-            this.CheckNode(to);
+            var from = edge.From;
+            var to = edge.To;
+
+            var valid =
+                _nodes.ContainsKey(from) &&
+                _nodes.ContainsKey(to) &&
+                from.Graph == this &&
+                to.Graph == this;
+
+            if (!valid)
+            {
+                throw new GraphIntegrityViolationException();
+            }
 
             var fromData = _nodes[from];
             var toData = _nodes[to];
 
-            var edge = new Edge<T>(from, to);
-            _edges.Add(edge);
+            var removedFrom = fromData.OutgoingEdges.Remove(edge);
+            var removedTo = toData.IncomingEdges.Remove(edge);
 
-            fromData.AddOutgoingEdge(edge);
-            toData.AddIncomingEdge(edge);
+            if (!(removedFrom && removedTo))
+            {
+                throw new GraphIntegrityViolationException();
+            }
 
-            return edge;
+            edge.From = null;
+            edge.To = null;
+            _edges.Remove(edge);
         }
-
-        public void RemoveEdge(IEdge<T> edge)
-        {
-            throw new NotImplementedException();
-            //if (edge == null)
-            //{
-            //    throw new ArgumentNullException(nameof(edge));
-            //}
-
-            //if (!_edges.Contains(edge))
-            //{
-            //    throw new ArgumentException("Edge does not belong to the given graph", nameof(edge));
-            //}
-
-            //var from = edge.From;
-            //var to = edge.To;
-
-            //var valid =
-            //    _nodes.ContainsKey(from) &&
-            //    _nodes.ContainsKey(to) &&
-            //    from.Graph == this &&
-            //    to.Graph == this;
-
-            //if (!valid)
-            //{
-            //    throw new GraphIntegrityViolationException();
-            //}
-
-            //var fromData = _nodes[from];
-            //var toData = _nodes[to];
-
-            //var removedFrom = fromData.OutgoingEdges.Remove(edge);
-            //var removedTo = toData.IncomingEdges.Remove(edge);
-
-            //if (!(removedFrom && removedTo))
-            //{
-            //    throw new GraphIntegrityViolationException();
-            //}
-
-            //edge.From = null;
-            //edge.To = null;
-            //_edges.Remove(edge);
-        }
-
-        public IReadOnlyList<INode<T>> Nodes => _nodes.Keys.ToList();
-
-        public IReadOnlyList<IEdge<T>> Edges => _edges.ToList();
 
         public Graph<T> Clone()
         {
-            throw new NotImplementedException();
-            //var clonedGraph = new Graph<T>();
+            var clonedGraph = new Graph<T>();
 
-            //var nodesByTags = new Dictionary<int, Node<T>>();
+            var nodesByTags = new Dictionary<int, Node<T>>();
 
-            //var map = new Dictionary<Node<T>, Node<T>>();
+            var map = new Dictionary<Node<T>, Node<T>>();
 
-            //foreach (var node in this.Nodes)
-            //{
-            //    var clonedValue = this.Cloner(node.Value);
-            //    var clonedNode = clonedGraph.AddNode(clonedValue);
+            foreach (var node in this.Nodes)
+            {
+                var clonedValue = this.Cloner(node.Value);
+                var clonedNode = clonedGraph.AddNode(clonedValue);
 
-            //    map.Add(node, clonedNode);
-            //}
+                map.Add(node, clonedNode);
+            }
 
-            //foreach (var edge in this.Edges)
-            //{
-            //    var oldFrom = edge.From;
-            //    var oldTo = edge.To;
+            foreach (var edge in this.Edges)
+            {
+                var oldFrom = edge.From;
+                var oldTo = edge.To;
 
-            //    var clonedFrom = map[oldFrom];
-            //    var clonedTo = map[oldTo];
+                var clonedFrom = map[oldFrom];
+                var clonedTo = map[oldTo];
 
-            //    clonedFrom.DrawEdgeTo(clonedTo);
-            //}
+                clonedFrom.DrawEdgeTo(clonedTo);
+            }
 
-            //return clonedGraph;
+            return clonedGraph;
         }
 
-        public void CaptureNodes(IEnumerable<INode<T>> otherGraphNodes)
+        public void CaptureNodes(IReadOnlyList<Node<T>> otherGraphNodes)
         {
             if (otherGraphNodes == null)
             {
                 throw new ArgumentNullException(nameof(otherGraphNodes));
             }
 
-            //if (otherGraphNodes.Count == 0)
-            //{
-            //    return;
-            //}
+            if (otherGraphNodes.Count == 0)
+            {
+                return;
+            }
 
             Graph<T> otherGraph = null;
-            var edgesToReview = new HashSet<IEdge<T>>();
+            var edgesToReview = new HashSet<Edge<T>>();
 
-            var idx = 0;
-
-            foreach (var otherNode in otherGraphNodes)
+            for (var i = 0; i < otherGraphNodes.Count; i++)
             {
+                var otherNode = otherGraphNodes[i];
                 if (otherNode == null)
                 {
-                    throw new ArgumentException("Nodes cannot contain nulls.", nameof(otherGraphNodes));
+                    throw new ArgumentException("Nodes cannot contain nulls", nameof(otherGraphNodes));
                 }
 
-                if (idx == 0)
+                if (otherNode.Graph == null)
                 {
-                    otherGraph = (Graph<T>)otherNode.Graph;
-                }
-
-                if (otherGraph == null)
-                {
-                    throw new ArgumentException("Nodes cannot contain detached ones.", nameof(otherGraphNodes));
+                    throw new ArgumentException("Nodes cannot contain detached ones", nameof(otherGraphNodes));
                 }
 
                 if (otherNode.Graph == this)
                 {
-                    throw new ArgumentException("Cannot capture own nodes.", nameof(otherGraphNodes));
+                    throw new ArgumentException("Cannot capture own nodes", nameof(otherGraphNodes));
+                }
+
+                if (i == 0)
+                {
+                    otherGraph = otherNode.Graph;
                 }
 
                 if (!ReferenceEquals(otherNode.Graph, otherGraph))
                 {
-                    throw new ArgumentException("Nodes must belong to a single graph.", nameof(otherGraphNodes));
+                    throw new ArgumentException("Nodes must belong to a single graph", nameof(otherGraphNodes));
                 }
 
                 this.EnrollNode(otherNode, otherGraph._nodes[otherNode]);
@@ -296,44 +247,7 @@ namespace TauCode.Algorithms.Graphs
 
                 edgesToReview.UnionWith(otherNode.OutgoingEdges);
                 edgesToReview.UnionWith(otherNode.IncomingEdges);
-
-                idx++;
             }
-
-            //for (var i = 0; i < otherGraphNodes.Count; i++)
-            //{
-            //    var otherNode = otherGraphNodes[i];
-            //    if (otherNode == null)
-            //    {
-            //        throw new ArgumentException("Nodes cannot contain nulls", nameof(otherGraphNodes));
-            //    }
-
-            //    if (otherNode.Graph == null)
-            //    {
-            //        throw new ArgumentException("Nodes cannot contain detached ones", nameof(otherGraphNodes));
-            //    }
-
-            //    if (otherNode.Graph == this)
-            //    {
-            //        throw new ArgumentException("Cannot capture own nodes", nameof(otherGraphNodes));
-            //    }
-
-            //    if (i == 0)
-            //    {
-            //        otherGraph = otherNode.Graph;
-            //    }
-
-            //    if (!ReferenceEquals(otherNode.Graph, otherGraph))
-            //    {
-            //        throw new ArgumentException("Nodes must belong to a single graph", nameof(otherGraphNodes));
-            //    }
-
-            //    this.EnrollNode(otherNode, otherGraph._nodes[otherNode]);
-            //    otherGraph.EvictNode(otherNode);
-
-            //    edgesToReview.UnionWith(otherNode.OutgoingEdges);
-            //    edgesToReview.UnionWith(otherNode.IncomingEdges);
-            //}
 
             foreach (var edgeToReview in edgesToReview)
             {
@@ -372,8 +286,8 @@ namespace TauCode.Algorithms.Graphs
                     otherGraph.EvictEdge(edgeToReview);
 
                     // this edge disappears from 'other' graph and is not enrolled to 'me'
-                    ((Edge<T>)edgeToReview).From = null;
-                    ((Edge<T>)edgeToReview).To = null;
+                    edgeToReview.From = null;
+                    edgeToReview.To = null;
                 }
                 else
                 {
@@ -397,54 +311,17 @@ namespace TauCode.Algorithms.Graphs
                     otherGraph.EvictEdge(edgeToReview);
 
                     // this edge disappears from 'other' graph and is not enrolled to 'me'
-                    ((Edge<T>)edgeToReview).From = null;
-                    ((Edge<T>)edgeToReview).To = null;
+                    edgeToReview.From = null;
+                    edgeToReview.To = null;
                 }
             }
         }
 
         #endregion
 
-        #region IPropertyOwner Members
-
-        public void SetProperty(string propertyName, object propertyValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object GetProperty(string propertyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool HasProperty(string propertyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<string> PropertyNames => throw new NotImplementedException();
-
-        #endregion
-
-        #region Public
-
-
-        // todo clean
-
-
-
-
-
-
-
-
-
-        #endregion
-
         #region Internal
 
-        // todo: remove this
-        internal Edge<T> DrawEdgeTodoOld(Node<T> from, Node<T> to)
+        internal Edge<T> DrawEdge(Node<T> from, Node<T> to)
         {
             // 'from' cannot be null by design
 
@@ -467,25 +344,28 @@ namespace TauCode.Algorithms.Graphs
             return edge;
         }
 
-        internal IReadOnlyList<IEdge<T>> GetOutgoingEdges(Node<T> node)
+        internal IReadOnlyCollection<Edge<T>> GetOutgoingEdges(Node<T> node)
         {
             var nodeData = _nodes[node];
-            return nodeData.OutgoingEdges.ToList();
+            return nodeData.OutgoingEdges;
         }
 
-        internal IReadOnlyList<IEdge<T>> GetIncomingEdges(Node<T> node)
+        internal IReadOnlyCollection<Edge<T>> GetIncomingEdges(Node<T> node)
         {
             var nodeData = _nodes[node];
-            return nodeData.IncomingEdges.ToList();
+            return nodeData.IncomingEdges;
         }
 
         #endregion
 
         #region Private
 
-        private static T DefaultCloner(T value) => value;
+        private static T DefaultCloner(T value)
+        {
+            return value;
+        }
 
-        private void CheckNode(INode<T> node)
+        private void CheckNode(Node<T> node)
         {
             if (!ReferenceEquals(node.Graph, this))
             {
@@ -493,7 +373,7 @@ namespace TauCode.Algorithms.Graphs
             }
         }
 
-        private void EnrollNode(INode<T> otherNode, NodeData otherNodeData)
+        private void EnrollNode(Node<T> otherNode, NodeData otherNodeData)
         {
             var valid =
                 otherNode != null &&
@@ -511,7 +391,7 @@ namespace TauCode.Algorithms.Graphs
             otherNode.Graph = this;
         }
 
-        private void EvictNode(INode<T> existingNode)
+        private void EvictNode(Node<T> existingNode)
         {
             var valid =
                 existingNode != null &&
@@ -527,7 +407,7 @@ namespace TauCode.Algorithms.Graphs
             _nodes.Remove(existingNode);
         }
 
-        private void EnrollEdge(IEdge<T> otherEdge)
+        private void EnrollEdge(Edge<T> otherEdge)
         {
             var valid =
                 otherEdge != null &&
@@ -543,7 +423,7 @@ namespace TauCode.Algorithms.Graphs
             _edges.Add(otherEdge);
         }
 
-        private void EvictEdge(IEdge<T> existingEdge)
+        private void EvictEdge(Edge<T> existingEdge)
         {
             var valid =
                 existingEdge != null &&
@@ -551,7 +431,7 @@ namespace TauCode.Algorithms.Graphs
                 existingEdge.To != null &&
                 existingEdge.From.Graph != null &&
                 existingEdge.To.Graph != null &&
-                _edges.Contains((IEdge<T>) existingEdge);
+                _edges.Contains(existingEdge);
 
             if (!valid)
             {

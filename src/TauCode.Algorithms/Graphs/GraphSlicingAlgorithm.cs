@@ -43,11 +43,12 @@ namespace TauCode.Algorithms.Graphs
 
         private IReadOnlyList<Node<T>> GetTopLevelNodes()
         {
-            throw new NotImplementedException();
+            var result = new List<Node<T>>();
 
-            //return _clonedGraph.Nodes
-            //    .Where(x => x.OutgoingEdges.Count == 0)
-            //    .ToList();
+
+            return _clonedGraph.Nodes
+                .Where(x => x.OutgoingEdges.Count == 0)
+                .ToList();
         }
     }
 }

@@ -5,85 +5,41 @@ using System.Diagnostics;
 namespace TauCode.Algorithms.Graphs
 {
     [DebuggerDisplay("{" + nameof(Value) + "}")]
-    internal class Node<T> : INode<T>
+    public class Node<T>
     {
-        #region Fields
-
-        private Graph<T> _graph;
-
-        #endregion
-
-        #region Constructor
-
         internal Node(Graph<T> graph, T value)
         {
-            _graph = graph;
+            this.Graph = graph;
             this.Value = value;
         }
 
-        #endregion
+        public Graph<T> Graph { get; internal set; }
 
-        #region INode<T> Members
+        public T Value { get; }
 
-        public IGraph<T> Graph
+        public Edge<T> DrawEdgeTo(Node<T> other)
         {
-            get => _graph;
-            set => _graph = (Graph<T>)value;
+            this.CheckIsAttached();
+            return this.Graph.DrawEdge(this, other);
         }
 
-        public T Value { get; set; }
-
-        public IReadOnlyList<IEdge<T>> OutgoingEdges
+        public IReadOnlyCollection<Edge<T>> OutgoingEdges
         {
             get
             {
                 this.CheckIsAttached();
-                return _graph.GetOutgoingEdges(this);
+                return this.Graph.GetOutgoingEdges(this);
             }
         }
 
-        public IReadOnlyList<IEdge<T>> IncomingEdges
+        public IReadOnlyCollection<Edge<T>> IncomingEdges
         {
             get
             {
                 this.CheckIsAttached();
-                return _graph.GetIncomingEdges(this);
+                return this.Graph.GetIncomingEdges(this);
             }
         }
-
-        #endregion
-
-        #region IPropertyOwner Members
-
-        public void SetProperty(string propertyName, object propertyValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object GetProperty(string propertyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool HasProperty(string propertyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyList<string> PropertyNames => throw new NotImplementedException();
-
-        #endregion
-
-
-
-
-
-        //public Edge<T> DrawEdgeTo(Node<T> other)
-        //{
-        //    this.CheckIsAttached();
-        //    return this.Graph.DrawEdge(this, other);
-        //}
-
 
         private void CheckIsAttached()
         {

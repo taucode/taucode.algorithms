@@ -2,7 +2,6 @@
 
 namespace TauCode.Algorithms.Graphs
 {
-    // todo: valid exception pattern.
     public class GraphIntegrityViolationException : Exception
     {
         public GraphIntegrityViolationException()
