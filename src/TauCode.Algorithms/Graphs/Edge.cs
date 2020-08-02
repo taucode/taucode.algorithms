@@ -25,6 +25,8 @@ namespace TauCode.Algorithms.Graphs
 
         #endregion
 
+        #region IEdge<T> Members
+
         public INode<T> From
         {
             get
@@ -60,5 +62,7 @@ namespace TauCode.Algorithms.Graphs
 
             _isAlive = false;
         }
+
+        #endregion
     }
 }

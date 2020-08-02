@@ -24,7 +24,7 @@ namespace TauCode.Algorithms.Graphs
 
         #endregion
 
-        #region INode2<T> Members
+        #region INode<T> Members
 
         public T Value { get; set; }
 

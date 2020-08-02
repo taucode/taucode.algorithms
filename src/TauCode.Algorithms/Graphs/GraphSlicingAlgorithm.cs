@@ -6,9 +6,6 @@ namespace TauCode.Algorithms.Graphs
 {
     public class GraphSlicingAlgorithm<T>
     {
-        //private readonly IGraph2<T> _graph;
-        //private IGraph2<T> _clonedGraph;
-
         private readonly IGraph<T> _graph;
         private List<IGraph<T>> _result;
 
@@ -19,7 +16,6 @@ namespace TauCode.Algorithms.Graphs
         
         public IGraph<T>[] Slice()
         {
-            //_clonedGraph = _graph.CloneGraph();
             _result = new List<IGraph<T>>();
 
             while (true)

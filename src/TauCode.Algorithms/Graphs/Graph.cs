@@ -20,7 +20,7 @@ namespace TauCode.Algorithms.Graphs
 
         #endregion
 
-        #region IGraph2<T> Members
+        #region IGraph<T> Members
 
         public void AddNode(INode<T> node)
         {
