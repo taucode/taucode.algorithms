@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TauCode.Algorithms.Graphs
 {
-    public class GraphSlicingAlgorithm2<T>
+    public class GraphSlicingAlgorithm<T>
     {
         //private readonly IGraph2<T> _graph;
         //private IGraph2<T> _clonedGraph;
@@ -12,7 +12,7 @@ namespace TauCode.Algorithms.Graphs
         private readonly IGraph<T> _graph;
         private List<IGraph<T>> _result;
 
-        public GraphSlicingAlgorithm2(IGraph<T> graph)
+        public GraphSlicingAlgorithm(IGraph<T> graph)
         {
             _graph = graph ?? throw new ArgumentNullException(nameof(graph));
         }
@@ -35,7 +35,7 @@ namespace TauCode.Algorithms.Graphs
                     break;
                 }
 
-                var slice = new Graph2<T>();
+                var slice = new Graph<T>();
                 slice.CaptureNodesFrom(_graph, nodes);
                 _result.Add(slice);
             }
@@ -43,9 +43,9 @@ namespace TauCode.Algorithms.Graphs
             return _result.ToArray();
         }
 
-        private IReadOnlyList<INode2<T>> GetTopLevelNodes()
+        private IReadOnlyList<INode<T>> GetTopLevelNodes()
         {
-            var result = new List<INode2<T>>();
+            var result = new List<INode<T>>();
 
             var nodes = _graph.Nodes;
             foreach (var node in nodes)

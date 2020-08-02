@@ -4,14 +4,14 @@ using TauCode.Algorithms.Graphs;
 namespace TauCode.Algorithms.Tests
 {
     [TestFixture]
-    public class GraphTestBase2
+    public class GraphTestBase
     {
         protected IGraph<string> Graph { get; set; }
 
         [SetUp]
         public void SetUpBase()
         {
-            this.Graph = new Graph2<string>()
+            this.Graph = new Graph<string>()
             {
             };
         }

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace TauCode.Algorithms.Graphs
 {
-    public static class Graph2Extensions
+    public static class GraphExtensions
     {
-        public static INode2<T> AddNode<T>(this IGraph<T> graph, T value)
+        public static INode<T> AddNode<T>(this IGraph<T> graph, T value)
         {
-            var node = new Node2<T>(value);
+            var node = new Node<T>(value);
             graph.AddNode(node);
             return node;
         }
@@ -44,7 +44,7 @@ namespace TauCode.Algorithms.Graphs
 
         public static IGraph<T> CloneGraph<T>(this IGraph<T> graph)
         {
-            var clone = new Graph2<T>();
+            var clone = new Graph<T>();
             foreach (var node in graph.Nodes)
             {
                 clone.AddNode(node);
@@ -53,7 +53,7 @@ namespace TauCode.Algorithms.Graphs
             return clone;
         }
 
-        public static IReadOnlyList<IEdge<T>> GetOutgoingEdgesLyingInGraph<T>(this INode2<T> node, IGraph<T> graph)
+        public static IReadOnlyList<IEdge<T>> GetOutgoingEdgesLyingInGraph<T>(this INode<T> node, IGraph<T> graph)
         {
             if (node == null)
             {
@@ -85,7 +85,7 @@ namespace TauCode.Algorithms.Graphs
             return edges;
         }
 
-        public static IReadOnlyList<IEdge<T>> GetIncomingEdgesLyingInGraph<T>(this INode2<T> node, IGraph<T> graph)
+        public static IReadOnlyList<IEdge<T>> GetIncomingEdgesLyingInGraph<T>(this INode<T> node, IGraph<T> graph)
         {
             if (node == null)
             {
@@ -120,7 +120,7 @@ namespace TauCode.Algorithms.Graphs
         public static void CaptureNodesFrom<T>(
             this IGraph<T> graph,
             IGraph<T> otherGraph,
-            IEnumerable<INode2<T>> otherGraphNodes)
+            IEnumerable<INode<T>> otherGraphNodes)
         {
             if (graph == null)
             {

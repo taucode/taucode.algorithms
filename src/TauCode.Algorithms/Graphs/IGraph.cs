@@ -4,12 +4,12 @@ namespace TauCode.Algorithms.Graphs
 {
     public interface IGraph<T>
     {
-        void AddNode(INode2<T> node);
+        void AddNode(INode<T> node);
 
-        bool ContainsNode(INode2<T> node);
+        bool ContainsNode(INode<T> node);
 
-        bool RemoveNode(INode2<T> node);
+        bool RemoveNode(INode<T> node);
 
-        IReadOnlyCollection<INode2<T>> Nodes { get; }
+        IReadOnlyCollection<INode<T>> Nodes { get; }
     }
 }

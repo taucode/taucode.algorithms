@@ -5,26 +5,26 @@ using TauCode.Algorithms.Graphs;
 
 namespace TauCode.Algorithms.Tests
 {
-    internal static class TestHelper2
+    internal static class TestHelper
     {
-        internal static IEdge<string>[] LinkTo(this INode2<string> node, params INode2<string>[] otherNodes)
+        internal static IEdge<string>[] LinkTo(this INode<string> node, params INode<string>[] otherNodes)
         {
             return otherNodes
                 .Select(node.DrawEdgeTo)
                 .ToArray();
         }
 
-        internal static INode2<string> GetNode(this IGraph<string> graph, string nodeValue)
+        internal static INode<string> GetNode(this IGraph<string> graph, string nodeValue)
         {
             return graph.Nodes.Single(x => x.Value == nodeValue);
         }
 
         internal static void AssertNode(
             this IGraph<string> graph,
-            INode2<string> node,
-            INode2<string>[] linkedToNodes,
+            INode<string> node,
+            INode<string>[] linkedToNodes,
             IEdge<string>[] linkedToEdges,
-            INode2<string>[] linkedFromNodes,
+            INode<string>[] linkedFromNodes,
             IEdge<string>[] linkedFromEdges)
         {
             if (linkedToNodes.Length != linkedToEdges.Length)

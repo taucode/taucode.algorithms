@@ -3,26 +3,26 @@ using System.Collections.Generic;
 
 namespace TauCode.Algorithms.Graphs
 {
-    public class Graph2<T> : IGraph<T>
+    public class Graph<T> : IGraph<T>
     {
         #region Fields
 
-        private readonly HashSet<INode2<T>> _nodes;
+        private readonly HashSet<INode<T>> _nodes;
 
         #endregion
 
         #region Constructor
 
-        public Graph2()
+        public Graph()
         {
-            _nodes = new HashSet<INode2<T>>();
+            _nodes = new HashSet<INode<T>>();
         }
 
         #endregion
 
         #region IGraph2<T> Members
 
-        public void AddNode(INode2<T> node)
+        public void AddNode(INode<T> node)
         {
             if (node == null)
             {
@@ -37,7 +37,7 @@ namespace TauCode.Algorithms.Graphs
             _nodes.Add(node);
         }
 
-        public bool ContainsNode(INode2<T> node)
+        public bool ContainsNode(INode<T> node)
         {
             if (node == null)
             {
@@ -47,7 +47,7 @@ namespace TauCode.Algorithms.Graphs
             return _nodes.Contains(node);
         }
 
-        public bool RemoveNode(INode2<T> node)
+        public bool RemoveNode(INode<T> node)
         {
             if (node == null)
             {
@@ -59,7 +59,7 @@ namespace TauCode.Algorithms.Graphs
             return removed;
         }
 
-        public IReadOnlyCollection<INode2<T>> Nodes => _nodes;
+        public IReadOnlyCollection<INode<T>> Nodes => _nodes;
 
         #endregion
     }

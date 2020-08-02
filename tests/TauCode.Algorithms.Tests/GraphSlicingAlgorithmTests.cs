@@ -6,7 +6,7 @@ using TauCode.Algorithms.Graphs;
 namespace TauCode.Algorithms.Tests
 {
     [TestFixture]
-    public class GraphSlicingAlgorithmTests2 : GraphTestBase2
+    public class GraphSlicingAlgorithmTests : GraphTestBase
     {
         [Test]
         public void Constructor_ValidArgument_RunsOk()
@@ -14,7 +14,7 @@ namespace TauCode.Algorithms.Tests
             // Arrange
 
             // Act
-            var algorithm = new GraphSlicingAlgorithm2<string>(this.Graph);
+            var algorithm = new GraphSlicingAlgorithm<string>(this.Graph);
 
             // Assert
         }
@@ -25,7 +25,7 @@ namespace TauCode.Algorithms.Tests
             // Arrange
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new GraphSlicingAlgorithm2<string>(null));
+            var ex = Assert.Throws<ArgumentNullException>(() => new GraphSlicingAlgorithm<string>(null));
 
             Assert.That(ex.ParamName, Is.EqualTo("graph"));
         }
@@ -67,7 +67,7 @@ namespace TauCode.Algorithms.Tests
             q.LinkTo(i);
 
             // Act
-            var slicer = new GraphSlicingAlgorithm2<string>(this.Graph);
+            var slicer = new GraphSlicingAlgorithm<string>(this.Graph);
             var result = slicer.Slice();
 
             // Assert
@@ -128,37 +128,37 @@ namespace TauCode.Algorithms.Tests
 
             result[3].AssertNode(
                 clonedM,
-                new INode2<string>[] { clonedN },
+                new INode<string>[] { clonedN },
                 new IEdge<string>[] { clonedEdgeMN },
-                new INode2<string>[] { clonedN },
+                new INode<string>[] { clonedN },
                 new IEdge<string>[] { clonedEdgeNM });
 
             result[3].AssertNode(
                 clonedN,
-                new INode2<string>[] { clonedM },
+                new INode<string>[] { clonedM },
                 new IEdge<string>[] { clonedEdgeNM },
-                new INode2<string>[] { clonedM },
+                new INode<string>[] { clonedM },
                 new IEdge<string>[] { clonedEdgeMN });
 
             result[3].AssertNode(
                 clonedP,
-                new INode2<string>[] { clonedL },
+                new INode<string>[] { clonedL },
                 new IEdge<string>[] { clonedEdgePL },
-                new INode2<string>[] { clonedG },
+                new INode<string>[] { clonedG },
                 new IEdge<string>[] { clonedEdgeGP });
 
             result[3].AssertNode(
                 clonedL,
-                new INode2<string>[] { clonedG },
+                new INode<string>[] { clonedG },
                 new IEdge<string>[] { clonedEdgeLG },
-                new INode2<string>[] { clonedP },
+                new INode<string>[] { clonedP },
                 new IEdge<string>[] { clonedEdgePL });
 
             result[3].AssertNode(
                 clonedG,
-                new INode2<string>[] { clonedP },
+                new INode<string>[] { clonedP },
                 new IEdge<string>[] { clonedEdgeGP },
-                new INode2<string>[] { clonedL },
+                new INode<string>[] { clonedL },
                 new IEdge<string>[] { clonedEdgeLG });
         }
 
@@ -168,7 +168,7 @@ namespace TauCode.Algorithms.Tests
             // Arrange
 
             // Act
-            var slicer = new GraphSlicingAlgorithm2<string>(this.Graph);
+            var slicer = new GraphSlicingAlgorithm<string>(this.Graph);
             var result = slicer.Slice();
 
             // Assert
@@ -187,7 +187,7 @@ namespace TauCode.Algorithms.Tests
             var e = this.Graph.AddNode("e");
 
             // Act
-            var slicer = new GraphSlicingAlgorithm2<string>(this.Graph);
+            var slicer = new GraphSlicingAlgorithm<string>(this.Graph);
             var result = slicer.Slice();
 
             // Assert
@@ -223,7 +223,7 @@ namespace TauCode.Algorithms.Tests
             z.LinkTo(e, c);
 
             // Act
-            var slicer = new GraphSlicingAlgorithm2<string>(this.Graph);
+            var slicer = new GraphSlicingAlgorithm<string>(this.Graph);
             var result = slicer.Slice();
 
             // Assert
@@ -273,7 +273,7 @@ namespace TauCode.Algorithms.Tests
             z.LinkTo(e, c);
 
             // Act
-            var slicer = new GraphSlicingAlgorithm2<string>(this.Graph);
+            var slicer = new GraphSlicingAlgorithm<string>(this.Graph);
             var result = slicer.Slice();
 
             // Assert

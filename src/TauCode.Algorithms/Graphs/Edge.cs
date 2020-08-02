@@ -2,19 +2,19 @@
 
 namespace TauCode.Algorithms.Graphs
 {
-    internal class Edge2<T> : IEdge<T>
+    internal class Edge<T> : IEdge<T>
     {
         #region Fields
 
-        private readonly Node2<T> _from;
-        private readonly Node2<T> _to;
+        private readonly Node<T> _from;
+        private readonly Node<T> _to;
         private bool _isAlive;
 
         #endregion
 
         #region Constructor
 
-        internal Edge2(Node2<T> from, Node2<T> to)
+        internal Edge(Node<T> from, Node<T> to)
         {
             // arg checks omitted since the type is internal.
 
@@ -25,7 +25,7 @@ namespace TauCode.Algorithms.Graphs
 
         #endregion
 
-        public INode2<T> From
+        public INode<T> From
         {
             get
             {
@@ -38,7 +38,7 @@ namespace TauCode.Algorithms.Graphs
             }
         }
 
-        public INode2<T> To
+        public INode<T> To
         {
             get
             {
