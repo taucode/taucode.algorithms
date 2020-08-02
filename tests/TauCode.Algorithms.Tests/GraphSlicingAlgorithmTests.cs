@@ -75,38 +75,43 @@ namespace TauCode.Algorithms.Tests
 
             // 0
             CollectionAssert.AreEquivalent(
+                new string[] { "a", "b", "c", "f" },
                 result[0].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "a", "b", "c", "f" });
+                    .ToArray()
+                );
             Assert.That(result[0].Edges, Is.Empty);
 
             // 1
             CollectionAssert.AreEquivalent(
+                new string[] { "d", "e", "i", "j", "k" },
                 result[1].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "d", "e", "i", "j", "k" });
+                    .ToArray()
+                );
             Assert.That(result[1].Edges, Is.Empty);
 
             // 2
             CollectionAssert.AreEquivalent(
+                new string[] { "h", "o", "q" },
                 result[2].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "h", "o", "q" });
+                    .ToArray()
+                );
             Assert.That(result[2].Edges, Is.Empty);
 
             // 3
             CollectionAssert.AreEquivalent(
+                new string[] { "m", "n", "g", "l", "p" }.OrderBy(x => x),
                 result[3].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "m", "n", "g", "l", "p" }.OrderBy(x => x));
+                    .ToArray()
+                );
+
             Assert.That(result[3].Edges, Has.Count.EqualTo(5));
 
             var clonedM = result[3].GetNode("m");
@@ -191,11 +196,12 @@ namespace TauCode.Algorithms.Tests
 
             // 0
             CollectionAssert.AreEquivalent(
+                new string[] { "a", "b", "c", "d", "e" },
                 result[0].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "a", "b", "c", "d", "e" });
+                    .ToArray()
+                );
             Assert.That(result[0].Edges, Is.Empty);
         }
 
@@ -226,20 +232,72 @@ namespace TauCode.Algorithms.Tests
 
             // 0
             CollectionAssert.AreEquivalent(
+                new string[] { "a", "b", "c", "d", "e" }.OrderBy(x => x),
                 result[0].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "a", "b", "c", "d", "e" }.OrderBy(x => x));
+                    .ToArray()
+                );
             Assert.That(result[0].Edges, Is.Empty);
 
             // 0
             CollectionAssert.AreEquivalent(
+                new string[] { "w", "y", "z" }.OrderBy(x => x),
                 result[1].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "w", "y", "z" }.OrderBy(x => x));
+                    .ToArray()
+                );
+            Assert.That(result[1].Edges, Is.Empty);
+
+        }
+
+        [Test]
+        public void Slice_SelfReference_ReturnsValidSlices()
+        {
+            // Arrange
+            var a = this.Graph.AddNode("a");
+            var b = this.Graph.AddNode("b");
+            var c = this.Graph.AddNode("c");
+            var d = this.Graph.AddNode("d");
+            var e = this.Graph.AddNode("e");
+
+            var w = this.Graph.AddNode("w");
+            var y = this.Graph.AddNode("y");
+            var z = this.Graph.AddNode("z");
+
+            a.LinkTo(a);
+            e.LinkTo(e);
+
+            w.LinkTo(a, b);
+            y.LinkTo(d, e, a);
+            z.LinkTo(e, c);
+
+            // Act
+            var slicer = new GraphSlicingAlgorithm<string>(this.Graph);
+            var result = slicer.Slice();
+
+            // Assert
+            Assert.That(result, Has.Length.EqualTo(2));
+
+            // 0
+            CollectionAssert.AreEquivalent(
+                new string[] { "a", "b", "c", "d", "e" }.OrderBy(x => x),
+                result[0].Nodes
+                    .Select(x => x.Value)
+                    .OrderBy(x => x)
+                    .ToArray()
+                );
+            Assert.That(result[0].Edges, Is.Empty);
+
+            // 0
+            CollectionAssert.AreEquivalent(
+                new string[] { "w", "y", "z" }.OrderBy(x => x),
+                result[1].Nodes
+                    .Select(x => x.Value)
+                    .OrderBy(x => x)
+                    .ToArray()
+                );
             Assert.That(result[1].Edges, Is.Empty);
 
         }
