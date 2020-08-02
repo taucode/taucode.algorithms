@@ -17,7 +17,7 @@ namespace TauCode.Algorithms.Graphs
 
         internal Node(Graph<T> graph, T value)
         {
-            this.Graph = _graph;
+            _graph = graph;
             this.Value = value;
         }
 
@@ -25,7 +25,11 @@ namespace TauCode.Algorithms.Graphs
 
         #region INode<T> Members
 
-        public IGraph<T> Graph { get; internal set; }
+        public IGraph<T> Graph
+        {
+            get => _graph;
+            set => _graph = (Graph<T>)value;
+        }
 
         public T Value { get; set; }
 
@@ -33,9 +37,8 @@ namespace TauCode.Algorithms.Graphs
         {
             get
             {
-                throw new NotImplementedException();
-                //this.CheckIsAttached();
-                //return this.Graph.GetOutgoingEdges(this);
+                this.CheckIsAttached();
+                return _graph.GetOutgoingEdges(this);
             }
         }
 
@@ -43,9 +46,8 @@ namespace TauCode.Algorithms.Graphs
         {
             get
             {
-                throw new NotImplementedException();
-                //this.CheckIsAttached();
-                //return this.Graph.GetIncomingEdges(this);
+                this.CheckIsAttached();
+                return _graph.GetIncomingEdges(this);
             }
         }
 

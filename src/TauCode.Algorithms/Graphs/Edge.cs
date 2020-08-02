@@ -13,7 +13,7 @@ namespace TauCode.Algorithms.Graphs
 
         #region Constructor
 
-        internal Edge(Node<T> from, Node<T> to)
+        internal Edge(INode<T> from, INode<T> to)
         {
             // 'from' and 'to' cannot be nulls by design
 

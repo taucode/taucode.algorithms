@@ -144,7 +144,29 @@ namespace TauCode.Algorithms.Graphs
 
         public IEdge<T> DrawEdge(INode<T> from, INode<T> to)
         {
-            throw new NotImplementedException();
+            if (from == null)
+            {
+                throw new ArgumentNullException(nameof(from));
+            }
+
+            if (to == null)
+            {
+                throw new ArgumentNullException(nameof(to));
+            }
+
+            this.CheckNode(from);
+            this.CheckNode(to);
+
+            var fromData = _nodes[from];
+            var toData = _nodes[to];
+
+            var edge = new Edge<T>(from, to);
+            _edges.Add(edge);
+
+            fromData.AddOutgoingEdge(edge);
+            toData.AddIncomingEdge(edge);
+
+            return edge;
         }
 
         public void RemoveEdge(IEdge<T> edge)
@@ -384,7 +406,8 @@ namespace TauCode.Algorithms.Graphs
 
         #region Internal
 
-        internal Edge<T> DrawEdge(Node<T> from, Node<T> to)
+        // todo: remove this
+        internal Edge<T> DrawEdgeTodoOld(Node<T> from, Node<T> to)
         {
             // 'from' cannot be null by design
 
@@ -407,16 +430,16 @@ namespace TauCode.Algorithms.Graphs
             return edge;
         }
 
-        internal IReadOnlyCollection<Edge<T>> GetOutgoingEdges(Node<T> node)
+        internal IReadOnlyList<Edge<T>> GetOutgoingEdges(Node<T> node)
         {
             var nodeData = _nodes[node];
-            return nodeData.OutgoingEdges;
+            return nodeData.OutgoingEdges.ToList();
         }
 
-        internal IReadOnlyCollection<Edge<T>> GetIncomingEdges(Node<T> node)
+        internal IReadOnlyList<Edge<T>> GetIncomingEdges(Node<T> node)
         {
             var nodeData = _nodes[node];
-            return nodeData.IncomingEdges;
+            return nodeData.IncomingEdges.ToList();
         }
 
         #endregion
@@ -425,7 +448,7 @@ namespace TauCode.Algorithms.Graphs
 
         private static T DefaultCloner(T value) => value;
 
-        private void CheckNode(Node<T> node)
+        private void CheckNode(INode<T> node)
         {
             if (!ReferenceEquals(node.Graph, this))
             {
