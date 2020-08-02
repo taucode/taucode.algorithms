@@ -22,5 +22,9 @@ namespace TauCode.Algorithms.Graphs
         IReadOnlyList<INode<T>> Nodes { get; }
 
         IReadOnlyList<IEdge<T>> Edges { get; }
+
+        Graph<T> Clone();
+
+        void CaptureNodes(IReadOnlyList<INode<T>> otherGraphNodes);
     }
 }

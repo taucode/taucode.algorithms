@@ -7,18 +7,18 @@ namespace TauCode.Algorithms.Tests
 {
     internal static class TestHelper
     {
-        internal static Node<string> GetNode(this Graph<string> graph, string nodeValue)
+        internal static INode<string> GetNode(this Graph<string> graph, string nodeValue)
         {
             return graph.Nodes.Single(x => x.Value == nodeValue);
         }
 
         internal static void AssertNode(
-            this Graph<string> graph,
-            Node<string> node,
-            Node<string>[] linkedToNodes,
-            Edge<string>[] linkedToEdges,
-            Node<string>[] linkedFromNodes,
-            Edge<string>[] linkedFromEdges)
+            this IGraph<string> graph,
+            INode<string> node,
+            INode<string>[] linkedToNodes,
+            IEdge<string>[] linkedToEdges,
+            INode<string>[] linkedFromNodes,
+            IEdge<string>[] linkedFromEdges)
         {
             if (linkedToNodes.Length != linkedToEdges.Length)
             {
@@ -65,43 +65,48 @@ namespace TauCode.Algorithms.Tests
             }
         }
 
-        internal static Edge<string>[] LinkFrom(this Graph<string> graph, Node<string> node, Node<string>[] fromNodes)
+        internal static IEdge<string>[] LinkFrom(this IGraph<string> graph, INode<string> node, INode<string>[] fromNodes)
         {
-            return fromNodes
-                .Select(fromNode => fromNode.DrawEdgeTo(node))
-                .ToArray();
+            throw new NotImplementedException();
+            //return fromNodes
+            //    .Select(fromNode => fromNode.DrawEdgeTo(node))
+            //    .ToArray();
         }
 
-        internal static Edge<string>[] LinkTo(this Node<string> node, params Node<string>[] otherNodes)
+        internal static IEdge<string>[] LinkTo(this INode<string> node, params INode<string>[] otherNodes)
         {
-            return otherNodes
-                .Select(node.DrawEdgeTo)
-                .ToArray();
+            throw new NotImplementedException();
+            //return otherNodes
+            //    .Select(node.DrawEdgeTo)
+            //    .ToArray();
         }
 
-        internal static Node<string> AssertNodeExists(this Graph<string> graph, string nodeValue)
+        internal static INode<string> AssertNodeExists(this IGraph<string> graph, string nodeValue)
         {
-            var node = graph.Nodes.Single(x => x.Value == nodeValue);
-            return node;
+            throw new NotImplementedException();
+            //var node = graph.Nodes.Single(x => x.Value == nodeValue);
+            //return node;
         }
 
-        internal static void AssertEdgesExist(this Graph<string> graph, Node<string> node, Node<string>[] linkFromNodes)
+        internal static void AssertEdgesExist(this Graph<string> graph, INode<string> node, INode<string>[] linkFromNodes)
         {
-            Assert.That(node.Graph, Is.SameAs(graph));
+            throw new NotImplementedException();
 
-            foreach (var fromNode in linkFromNodes)
-            {
-                Assert.That(fromNode.Graph, Is.SameAs(graph));
+            //Assert.That(node.Graph, Is.SameAs(graph));
 
-                var edge = node.IncomingEdges.Single(x => x.From == fromNode);
-                Assert.That(edge.To, Is.SameAs(node));
-                Assert.That(fromNode.OutgoingEdges, Does.Contain(edge));
+            //foreach (var fromNode in linkFromNodes)
+            //{
+            //    Assert.That(fromNode.Graph, Is.SameAs(graph));
 
-                Assert.That(graph.Edges, Does.Contain(edge));
-            }
+            //    var edge = node.IncomingEdges.Single(x => x.From == fromNode);
+            //    Assert.That(edge.To, Is.SameAs(node));
+            //    Assert.That(fromNode.OutgoingEdges, Does.Contain(edge));
+
+            //    Assert.That(graph.Edges, Does.Contain(edge));
+            //}
         }
 
-        internal static bool EdgeIsDetached<T>(this Edge<T> edge)
+        internal static bool EdgeIsDetached<T>(this IEdge<T> edge)
         {
             return
                 edge.From == null &&

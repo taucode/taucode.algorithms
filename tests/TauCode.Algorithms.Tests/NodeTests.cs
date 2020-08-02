@@ -1,7 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using System.Linq;
 using TauCode.Algorithms.Graphs;
 
+// todo clean up
 namespace TauCode.Algorithms.Tests
 {
     [TestFixture]
@@ -16,10 +18,14 @@ namespace TauCode.Algorithms.Tests
             var webNode = this.Graph.AddNode("web");
 
             // Act
-            var mathCoreEdge = mathNode.DrawEdgeTo(coreNode);
+            var mathCoreEdge = this.Graph.DrawEdge(mathNode, coreNode);
+            //var mathCoreEdge = mathNode.DrawEdgeTo(coreNode);
 
-            var webCoreEdge = webNode.DrawEdgeTo(coreNode);
-            var webMathEdge = webNode.DrawEdgeTo(mathNode);
+            var webCoreEdge = this.Graph.DrawEdge(webNode, coreNode);
+            //var webCoreEdge = webNode.DrawEdgeTo(coreNode);
+
+            var webMathEdge = this.Graph.DrawEdge(webNode, mathNode);
+            //var webMathEdge = webNode.DrawEdgeTo(mathNode);
 
             // Assert
             Assert.That(this.Graph.Edges, Has.Count.EqualTo(3));
@@ -39,26 +45,26 @@ namespace TauCode.Algorithms.Tests
             // "core"
             this.Graph.AssertNode(
                 coreNode,
-                new Node<string>[] { },
-                new Edge<string>[] { },
-                new Node<string>[] { mathNode, webNode },
-                new Edge<string>[] { mathCoreEdge, webCoreEdge });
+                new INode<string>[] { },
+                new IEdge<string>[] { },
+                new INode<string>[] { mathNode, webNode },
+                new IEdge<string>[] { mathCoreEdge, webCoreEdge });
 
             // "math"
             this.Graph.AssertNode(
                 mathNode,
-                new Node<string>[] { coreNode },
-                new Edge<string>[] { mathCoreEdge },
-                new Node<string>[] { webNode },
-                new Edge<string>[] { webMathEdge });
+                new INode<string>[] { coreNode },
+                new IEdge<string>[] { mathCoreEdge },
+                new INode<string>[] { webNode },
+                new IEdge<string>[] { webMathEdge });
 
             // "web"
             this.Graph.AssertNode(
                 webNode,
-                new Node<string>[] { coreNode, mathNode },
-                new Edge<string>[] { webCoreEdge, webMathEdge },
-                new Node<string>[] { },
-                new Edge<string>[] { });
+                new INode<string>[] { coreNode, mathNode },
+                new IEdge<string>[] { webCoreEdge, webMathEdge },
+                new INode<string>[] { },
+                new IEdge<string>[] { });
         }
     }
 }

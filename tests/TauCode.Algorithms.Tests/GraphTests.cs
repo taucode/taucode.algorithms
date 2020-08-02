@@ -64,47 +64,48 @@ namespace TauCode.Algorithms.Tests
         [Test]
         public void RemoveNode_ValidNode_RemovesNode()
         {
-            // Arrange
-            var coreNode = this.Graph.AddNode("core");
-            var mathNode = this.Graph.AddNode("math");
-            var webNode = this.Graph.AddNode("web");
+            throw new NotImplementedException();
+            //// Arrange
+            //var coreNode = this.Graph.AddNode("core");
+            //var mathNode = this.Graph.AddNode("math");
+            //var webNode = this.Graph.AddNode("web");
 
-            var mathCoreEdge = mathNode.DrawEdgeTo(coreNode);
+            //var mathCoreEdge = mathNode.DrawEdgeTo(coreNode);
 
-            var webCoreEdge = webNode.DrawEdgeTo(coreNode);
-            var webMathEdge = webNode.DrawEdgeTo(mathNode);
+            //var webCoreEdge = webNode.DrawEdgeTo(coreNode);
+            //var webMathEdge = webNode.DrawEdgeTo(mathNode);
 
-            // Act
-            this.Graph.RemoveNode(mathNode);
+            //// Act
+            //this.Graph.RemoveNode(mathNode);
 
-            // Assert
-            Assert.That(this.Graph.Nodes, Has.Count.EqualTo(2));
-            Assert.That(this.Graph.Edges, Has.Count.EqualTo(1));
+            //// Assert
+            //Assert.That(this.Graph.Nodes, Has.Count.EqualTo(2));
+            //Assert.That(this.Graph.Edges, Has.Count.EqualTo(1));
 
-            // "core"
-            this.Graph.AssertNode(
-                coreNode,
-                new Node<string>[] { },
-                new Edge<string>[] { },
-                new Node<string>[] { webNode },
-                new Edge<string>[] { webCoreEdge });
+            //// "core"
+            //this.Graph.AssertNode(
+            //    coreNode,
+            //    new INode<string>[] { },
+            //    new IEdge<string>[] { },
+            //    new INode<string>[] { webNode },
+            //    new IEdge<string>[] { webCoreEdge });
 
-            // "web"
-            this.Graph.AssertNode(
-                webNode,
-                new Node<string>[] { coreNode, },
-                new Edge<string>[] { webCoreEdge, },
-                new Node<string>[] { },
-                new Edge<string>[] { });
+            //// "web"
+            //this.Graph.AssertNode(
+            //    webNode,
+            //    new INode<string>[] { coreNode, },
+            //    new IEdge<string>[] { webCoreEdge, },
+            //    new INode<string>[] { },
+            //    new IEdge<string>[] { });
 
-            // deleted "math"
-            var deletedMath = this.Graph.Nodes.SingleOrDefault(x => x.Value == "math");
-            Assert.That(deletedMath, Is.Null);
+            //// deleted "math"
+            //var deletedMath = this.Graph.Nodes.SingleOrDefault(x => x.Value == "math");
+            //Assert.That(deletedMath, Is.Null);
 
-            Assert.That(mathNode.Graph, Is.Null);
-            IReadOnlyCollection<Edge<string>> dummy;
-            var ex = Assert.Throws<InvalidOperationException>(() => dummy = mathNode.OutgoingEdges);
-            Assert.That(ex.Message, Is.EqualTo("Node is detached"));
+            //Assert.That(mathNode.Graph, Is.Null);
+            //IReadOnlyCollection<Edge<string>> dummy;
+            //var ex = Assert.Throws<InvalidOperationException>(() => dummy = mathNode.OutgoingEdges);
+            //Assert.That(ex.Message, Is.EqualTo("Node is detached"));
         }
 
         [Test]
@@ -174,8 +175,8 @@ namespace TauCode.Algorithms.Tests
             var clonedMathNode = clonedGraph.AssertNodeExists("math");
             var clonedWebNode = clonedGraph.AssertNodeExists("web");
 
-            clonedGraph.AssertEdgesExist(clonedCoreNode, new Node<string>[] { clonedMathNode, clonedWebNode });
-            clonedGraph.AssertEdgesExist(clonedMathNode, new Node<string>[] { clonedWebNode });
+            clonedGraph.AssertEdgesExist(clonedCoreNode, new INode<string>[] { clonedMathNode, clonedWebNode });
+            clonedGraph.AssertEdgesExist(clonedMathNode, new INode<string>[] { clonedWebNode });
         }
 
         #endregion
@@ -297,10 +298,10 @@ namespace TauCode.Algorithms.Tests
             Assert.That(otherGraph.Edges, Does.Contain(aEdges[0]));
             otherGraph.AssertNode(
                 a,
-                new Node<string>[] { b },
-                new Edge<string>[] { aEdges[0] },
-                new Node<string>[] { c },
-                new Edge<string>[] { cEdges[0] });
+                new INode<string>[] { b },
+                new IEdge<string>[] { aEdges[0] },
+                new INode<string>[] { c },
+                new IEdge<string>[] { cEdges[0] });
 
             // b
             Assert.That(otherGraph.Nodes, Does.Contain(b));
@@ -309,10 +310,10 @@ namespace TauCode.Algorithms.Tests
             Assert.That(bEdges[1].EdgeIsDetached(), Is.True);
             otherGraph.AssertNode(
                 b,
-                new Node<string>[] { c },
-                new Edge<string>[] { bEdges[0] },
-                new Node<string>[] { a },
-                new Edge<string>[] { aEdges[0] });
+                new INode<string>[] { c },
+                new IEdge<string>[] { bEdges[0] },
+                new INode<string>[] { a },
+                new IEdge<string>[] { aEdges[0] });
 
             // c
             Assert.That(otherGraph.Nodes, Does.Contain(c));
@@ -323,10 +324,10 @@ namespace TauCode.Algorithms.Tests
             Assert.That(cEdges[2].EdgeIsDetached(), Is.True);
             otherGraph.AssertNode(
                 c,
-                new Node<string>[] { a },
-                new Edge<string>[] { cEdges[0] },
-                new Node<string>[] { b },
-                new Edge<string>[] { bEdges[0] });
+                new INode<string>[] { a },
+                new IEdge<string>[] { cEdges[0] },
+                new INode<string>[] { b },
+                new IEdge<string>[] { bEdges[0] });
 
             // 'Rest' of graph
             Assert.That(this.Graph.Nodes, Has.Count.EqualTo(3));
@@ -340,29 +341,29 @@ namespace TauCode.Algorithms.Tests
             Assert.That(dEdges[2].EdgeIsDetached(), Is.True);
             this.Graph.AssertNode(
                 d,
-                new Node<string>[] { e, f },
-                new Edge<string>[] { dEdges[0], dEdges[1] },
-                new Node<string>[] { },
-                new Edge<string>[] { });
+                new INode<string>[] { e, f },
+                new IEdge<string>[] { dEdges[0], dEdges[1] },
+                new INode<string>[] { },
+                new IEdge<string>[] { });
 
             // e
             Assert.That(this.Graph.Nodes, Does.Contain(e));
             Assert.That(this.Graph.Edges, Does.Contain(eEdges[0]));
             this.Graph.AssertNode(
                 e,
-                new Node<string>[] { f },
-                new Edge<string>[] { eEdges[0] },
-                new Node<string>[] { d },
-                new Edge<string>[] { dEdges[0] });
+                new INode<string>[] { f },
+                new IEdge<string>[] { eEdges[0] },
+                new INode<string>[] { d },
+                new IEdge<string>[] { dEdges[0] });
 
             // f
             Assert.That(this.Graph.Nodes, Does.Contain(f));
             this.Graph.AssertNode(
                 f,
-                new Node<string>[] { },
-                new Edge<string>[] { },
-                new Node<string>[] { e, d },
-                new Edge<string>[] { eEdges[0], dEdges[1] });
+                new INode<string>[] { },
+                new IEdge<string>[] { },
+                new INode<string>[] { e, d },
+                new IEdge<string>[] { eEdges[0], dEdges[1] });
         }
 
         [Test]
@@ -402,7 +403,7 @@ namespace TauCode.Algorithms.Tests
             };
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentException>(() => otherGraph.CaptureNodes(new Node<string>[] { a, b, c, null, d }));
+            var ex = Assert.Throws<ArgumentException>(() => otherGraph.CaptureNodes(new INode<string>[] { a, b, c, null, d }));
             Assert.That(ex.ParamName, Is.EqualTo("otherGraphNodes"));
             Assert.That(ex.Message, Does.StartWith("Nodes cannot contain nulls"));
         }
@@ -422,7 +423,7 @@ namespace TauCode.Algorithms.Tests
             };
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentException>(() => predatorGraph.CaptureNodes(new Node<string>[] { a, x }));
+            var ex = Assert.Throws<ArgumentException>(() => predatorGraph.CaptureNodes(new INode<string>[] { a, x }));
             Assert.That(ex.ParamName, Is.EqualTo("otherGraphNodes"));
             Assert.That(ex.Message, Does.StartWith("Nodes must belong to a single graph"));
         }
@@ -443,7 +444,7 @@ namespace TauCode.Algorithms.Tests
             };
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentException>(() => predatorGraph.CaptureNodes(new Node<string>[] { a, b }));
+            var ex = Assert.Throws<ArgumentException>(() => predatorGraph.CaptureNodes(new INode<string>[] { a, b }));
             Assert.That(ex.ParamName, Is.EqualTo("otherGraphNodes"));
             Assert.That(ex.Message, Does.StartWith("Nodes cannot contain detached ones"));
         }
@@ -461,7 +462,7 @@ namespace TauCode.Algorithms.Tests
             var b = predatorGraph.AddNode("b");
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentException>(() => predatorGraph.CaptureNodes(new Node<string>[] { a, b }));
+            var ex = Assert.Throws<ArgumentException>(() => predatorGraph.CaptureNodes(new INode<string>[] { a, b }));
             Assert.That(ex.ParamName, Is.EqualTo("otherGraphNodes"));
             Assert.That(ex.Message, Does.StartWith("Cannot capture own nodes"));
         }

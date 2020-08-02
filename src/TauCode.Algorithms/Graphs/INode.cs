@@ -8,8 +8,8 @@ namespace TauCode.Algorithms.Graphs
 
         T Value { get; set; }
 
-        IReadOnlyList<Edge<T>> OutgoingEdges { get; }
+        IReadOnlyList<IEdge<T>> OutgoingEdges { get; }
 
-        IReadOnlyList<Edge<T>> IncomingEdges { get; }
+        IReadOnlyList<IEdge<T>> IncomingEdges { get; }
     }
 }

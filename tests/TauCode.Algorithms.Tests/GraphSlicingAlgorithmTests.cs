@@ -129,38 +129,38 @@ namespace TauCode.Algorithms.Tests
 
             result[3].AssertNode(
                 clonedM,
-                new Node<string>[] { clonedN },
-                new Edge<string>[] { clonedEdgeMN },
-                new Node<string>[] { clonedN },
-                new Edge<string>[] { clonedEdgeNM });
+                new INode<string>[] { clonedN },
+                new IEdge<string>[] { clonedEdgeMN },
+                new INode<string>[] { clonedN },
+                new IEdge<string>[] { clonedEdgeNM });
 
             result[3].AssertNode(
                 clonedN,
-                new Node<string>[] { clonedM },
-                new Edge<string>[] { clonedEdgeNM },
-                new Node<string>[] { clonedM },
-                new Edge<string>[] { clonedEdgeMN });
+                new INode<string>[] { clonedM },
+                new IEdge<string>[] { clonedEdgeNM },
+                new INode<string>[] { clonedM },
+                new IEdge<string>[] { clonedEdgeMN });
 
             result[3].AssertNode(
                 clonedP,
-                new Node<string>[] { clonedL },
-                new Edge<string>[] { clonedEdgePL },
-                new Node<string>[] { clonedG },
-                new Edge<string>[] { clonedEdgeGP });
+                new INode<string>[] { clonedL },
+                new IEdge<string>[] { clonedEdgePL },
+                new INode<string>[] { clonedG },
+                new IEdge<string>[] { clonedEdgeGP });
 
             result[3].AssertNode(
                 clonedL,
-                new Node<string>[] { clonedG },
-                new Edge<string>[] { clonedEdgeLG },
-                new Node<string>[] { clonedP },
-                new Edge<string>[] { clonedEdgePL });
+                new INode<string>[] { clonedG },
+                new IEdge<string>[] { clonedEdgeLG },
+                new INode<string>[] { clonedP },
+                new IEdge<string>[] { clonedEdgePL });
 
             result[3].AssertNode(
                 clonedG,
-                new Node<string>[] { clonedP },
-                new Edge<string>[] { clonedEdgeGP },
-                new Node<string>[] { clonedL },
-                new Edge<string>[] { clonedEdgeLG });
+                new INode<string>[] { clonedP },
+                new IEdge<string>[] { clonedEdgeGP },
+                new INode<string>[] { clonedL },
+                new IEdge<string>[] { clonedEdgeLG });
         }
 
         [Test]

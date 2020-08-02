@@ -2,7 +2,7 @@
 {
     public interface IEdge<T> : IPropertyOwner
     {
-        Node<T> From { get; }
-        Node<T> To { get; }
+        INode<T> From { get; }
+        INode<T> To { get; }
     }
 }

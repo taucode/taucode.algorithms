@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+// todo clean up
+// todo ut properties functionality, for all classes IPropertiesOwner
 namespace TauCode.Algorithms.Graphs
 {
     [DebuggerDisplay("{From.Value} -> {To.Value}")]
-    public class Edge<T>
+    internal class Edge<T> : IEdge<T>
     {
-        private readonly Dictionary<string, object> _properties;
+        //private readonly Dictionary<string, object> _properties;
+
+        #region Constructor
 
         internal Edge(Node<T> from, Node<T> to)
         {
@@ -16,54 +20,38 @@ namespace TauCode.Algorithms.Graphs
             this.From = from;
             this.To = to;
 
-            _properties = new Dictionary<string, object>();
+            //_properties = new Dictionary<string, object>();
         }
 
-        public Node<T> From { get; internal set; }
-        public Node<T> To { get; internal set; }
+        #endregion
 
-        // todo1[ak] ut properties funcitonality
+        #region IEdge<T> Members
+
+        public INode<T> From { get; internal set; }
+
+        public INode<T> To { get; internal set; }
+
+        #endregion
+
+        #region IPropertyOwner Members
 
         public void SetProperty(string propertyName, object propertyValue)
         {
-            if (propertyName == null)
-            {
-                throw new ArgumentNullException(nameof(propertyName));
-            }
-
-            _properties[propertyName] = propertyValue;
+            throw new NotImplementedException();
         }
 
         public object GetProperty(string propertyName)
         {
-            if (propertyName == null)
-            {
-                throw new ArgumentNullException(nameof(propertyName));
-            }
-
-            if (!_properties.ContainsKey(propertyName))
-            {
-                throw new KeyNotFoundException($"Property '{propertyName}' not found");
-            }
-
-            return _properties[propertyName];
-        }
-
-        public TProperty GetProperty<TProperty>(string propertyName)
-        {
-            return (TProperty)GetProperty(propertyName);
+            throw new NotImplementedException();
         }
 
         public bool HasProperty(string propertyName)
         {
-            if (propertyName == null)
-            {
-                throw new ArgumentNullException(nameof(propertyName));
-            }
-
-            return _properties.ContainsKey(propertyName);
+            throw new NotImplementedException();
         }
 
-        public IReadOnlyCollection<string> PropertyNames => _properties.Keys;
+        public IReadOnlyList<string> PropertyNames => throw new NotImplementedException();
+
+        #endregion
     }
 }
