@@ -2,7 +2,7 @@
 
 namespace TauCode.Algorithms.Graphs
 {
-    public interface INode<T>
+    public interface INode<T> : IPropertyOwner
     {
         IGraph<T> Graph { get; }
 

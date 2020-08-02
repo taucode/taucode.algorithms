@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TauCode.Algorithms.Graphs
+﻿namespace TauCode.Algorithms.Graphs
 {
-    public interface IEdge<T>
+    public interface IEdge<T> : IPropertyOwner
     {
-
+        Node<T> From { get; }
+        Node<T> To { get; }
     }
 }
