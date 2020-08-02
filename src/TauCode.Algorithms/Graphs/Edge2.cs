@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TauCode.Algorithms.Graphs2
+namespace TauCode.Algorithms.Graphs
 {
-    internal class Edge2<T> : IEdge2<T>
+    internal class Edge2<T> : IEdge<T>
     {
         #region Fields
 

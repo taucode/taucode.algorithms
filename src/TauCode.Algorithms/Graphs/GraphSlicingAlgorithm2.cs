@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TauCode.Algorithms.Graphs2
+namespace TauCode.Algorithms.Graphs
 {
     public class GraphSlicingAlgorithm2<T>
     {
         //private readonly IGraph2<T> _graph;
         //private IGraph2<T> _clonedGraph;
 
-        private readonly IGraph2<T> _graph;
-        private List<IGraph2<T>> _result;
+        private readonly IGraph<T> _graph;
+        private List<IGraph<T>> _result;
 
-        public GraphSlicingAlgorithm2(IGraph2<T> graph)
+        public GraphSlicingAlgorithm2(IGraph<T> graph)
         {
             _graph = graph ?? throw new ArgumentNullException(nameof(graph));
         }
         
-        public IGraph2<T>[] Slice()
+        public IGraph<T>[] Slice()
         {
             //_clonedGraph = _graph.CloneGraph();
-            _result = new List<IGraph2<T>>();
+            _result = new List<IGraph<T>>();
 
             while (true)
             {

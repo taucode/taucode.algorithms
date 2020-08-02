@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TauCode.Algorithms.Graphs2
+namespace TauCode.Algorithms.Graphs
 {
-    public class Graph2<T> : IGraph2<T>
+    public class Graph2<T> : IGraph<T>
     {
         #region Fields
 

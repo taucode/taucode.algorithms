@@ -1,6 +1,6 @@
-﻿namespace TauCode.Algorithms.Graphs2
+﻿namespace TauCode.Algorithms.Graphs
 {
-    public interface IEdge2<T>
+    public interface IEdge<T>
     {
         INode2<T> From { get; }
         INode2<T> To { get; }

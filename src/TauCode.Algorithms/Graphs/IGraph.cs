@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace TauCode.Algorithms.Graphs2
+namespace TauCode.Algorithms.Graphs
 {
-    public interface IGraph2<T>
+    public interface IGraph<T>
     {
         void AddNode(INode2<T> node);
 

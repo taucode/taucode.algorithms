@@ -1,31 +1,31 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
-using TauCode.Algorithms.Graphs2;
+using TauCode.Algorithms.Graphs;
 
 namespace TauCode.Algorithms.Tests
 {
     internal static class TestHelper2
     {
-        internal static IEdge2<string>[] LinkTo(this INode2<string> node, params INode2<string>[] otherNodes)
+        internal static IEdge<string>[] LinkTo(this INode2<string> node, params INode2<string>[] otherNodes)
         {
             return otherNodes
                 .Select(node.DrawEdgeTo)
                 .ToArray();
         }
 
-        internal static INode2<string> GetNode(this IGraph2<string> graph, string nodeValue)
+        internal static INode2<string> GetNode(this IGraph<string> graph, string nodeValue)
         {
             return graph.Nodes.Single(x => x.Value == nodeValue);
         }
 
         internal static void AssertNode(
-            this IGraph2<string> graph,
+            this IGraph<string> graph,
             INode2<string> node,
             INode2<string>[] linkedToNodes,
-            IEdge2<string>[] linkedToEdges,
+            IEdge<string>[] linkedToEdges,
             INode2<string>[] linkedFromNodes,
-            IEdge2<string>[] linkedFromEdges)
+            IEdge<string>[] linkedFromEdges)
         {
             if (linkedToNodes.Length != linkedToEdges.Length)
             {

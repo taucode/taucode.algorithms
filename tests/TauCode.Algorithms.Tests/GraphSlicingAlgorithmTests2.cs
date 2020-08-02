@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
-using TauCode.Algorithms.Graphs2;
+using TauCode.Algorithms.Graphs;
 
 namespace TauCode.Algorithms.Tests
 {
@@ -129,37 +129,37 @@ namespace TauCode.Algorithms.Tests
             result[3].AssertNode(
                 clonedM,
                 new INode2<string>[] { clonedN },
-                new IEdge2<string>[] { clonedEdgeMN },
+                new IEdge<string>[] { clonedEdgeMN },
                 new INode2<string>[] { clonedN },
-                new IEdge2<string>[] { clonedEdgeNM });
+                new IEdge<string>[] { clonedEdgeNM });
 
             result[3].AssertNode(
                 clonedN,
                 new INode2<string>[] { clonedM },
-                new IEdge2<string>[] { clonedEdgeNM },
+                new IEdge<string>[] { clonedEdgeNM },
                 new INode2<string>[] { clonedM },
-                new IEdge2<string>[] { clonedEdgeMN });
+                new IEdge<string>[] { clonedEdgeMN });
 
             result[3].AssertNode(
                 clonedP,
                 new INode2<string>[] { clonedL },
-                new IEdge2<string>[] { clonedEdgePL },
+                new IEdge<string>[] { clonedEdgePL },
                 new INode2<string>[] { clonedG },
-                new IEdge2<string>[] { clonedEdgeGP });
+                new IEdge<string>[] { clonedEdgeGP });
 
             result[3].AssertNode(
                 clonedL,
                 new INode2<string>[] { clonedG },
-                new IEdge2<string>[] { clonedEdgeLG },
+                new IEdge<string>[] { clonedEdgeLG },
                 new INode2<string>[] { clonedP },
-                new IEdge2<string>[] { clonedEdgePL });
+                new IEdge<string>[] { clonedEdgePL });
 
             result[3].AssertNode(
                 clonedG,
                 new INode2<string>[] { clonedP },
-                new IEdge2<string>[] { clonedEdgeGP },
+                new IEdge<string>[] { clonedEdgeGP },
                 new INode2<string>[] { clonedL },
-                new IEdge2<string>[] { clonedEdgeLG });
+                new IEdge<string>[] { clonedEdgeLG });
         }
 
         [Test]

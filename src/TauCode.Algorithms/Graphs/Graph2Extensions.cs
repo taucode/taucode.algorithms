@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TauCode.Algorithms.Graphs2
+namespace TauCode.Algorithms.Graphs
 {
     public static class Graph2Extensions
     {
-        public static INode2<T> AddNode<T>(this IGraph2<T> graph, T value)
+        public static INode2<T> AddNode<T>(this IGraph<T> graph, T value)
         {
             var node = new Node2<T>(value);
             graph.AddNode(node);
             return node;
         }
 
-        public static IReadOnlyCollection<IEdge2<T>> GetEdges<T>(this IGraph2<T> graph)
+        public static IReadOnlyCollection<IEdge<T>> GetEdges<T>(this IGraph<T> graph)
         {
-            var result = new HashSet<IEdge2<T>>();
+            var result = new HashSet<IEdge<T>>();
 
             var nodes = graph.Nodes;
 
@@ -42,7 +42,7 @@ namespace TauCode.Algorithms.Graphs2
             return result;
         }
 
-        public static IGraph2<T> CloneGraph<T>(this IGraph2<T> graph)
+        public static IGraph<T> CloneGraph<T>(this IGraph<T> graph)
         {
             var clone = new Graph2<T>();
             foreach (var node in graph.Nodes)
@@ -53,7 +53,7 @@ namespace TauCode.Algorithms.Graphs2
             return clone;
         }
 
-        public static IReadOnlyList<IEdge2<T>> GetOutgoingEdgesLyingInGraph<T>(this INode2<T> node, IGraph2<T> graph)
+        public static IReadOnlyList<IEdge<T>> GetOutgoingEdgesLyingInGraph<T>(this INode2<T> node, IGraph<T> graph)
         {
             if (node == null)
             {
@@ -70,7 +70,7 @@ namespace TauCode.Algorithms.Graphs2
                 throw new InvalidOperationException("Graph does not contain this node.");
             }
 
-            var edges = new List<IEdge2<T>>();
+            var edges = new List<IEdge<T>>();
 
             foreach (var outgoingEdge in node.OutgoingEdges)
             {
@@ -85,7 +85,7 @@ namespace TauCode.Algorithms.Graphs2
             return edges;
         }
 
-        public static IReadOnlyList<IEdge2<T>> GetIncomingEdgesLyingInGraph<T>(this INode2<T> node, IGraph2<T> graph)
+        public static IReadOnlyList<IEdge<T>> GetIncomingEdgesLyingInGraph<T>(this INode2<T> node, IGraph<T> graph)
         {
             if (node == null)
             {
@@ -102,7 +102,7 @@ namespace TauCode.Algorithms.Graphs2
                 throw new InvalidOperationException("Graph does not contain this node.");
             }
 
-            var edges = new List<IEdge2<T>>();
+            var edges = new List<IEdge<T>>();
 
             foreach (var incomingEdge in node.IncomingEdges)
             {
@@ -118,8 +118,8 @@ namespace TauCode.Algorithms.Graphs2
         }
 
         public static void CaptureNodesFrom<T>(
-            this IGraph2<T> graph,
-            IGraph2<T> otherGraph,
+            this IGraph<T> graph,
+            IGraph<T> otherGraph,
             IEnumerable<INode2<T>> otherGraphNodes)
         {
             if (graph == null)

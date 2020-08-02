@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TauCode.Algorithms.Graphs2
+namespace TauCode.Algorithms.Graphs
 {
     public class Node2<T> : INode2<T>
     {
@@ -28,7 +28,7 @@ namespace TauCode.Algorithms.Graphs2
 
         public T Value { get; set; }
 
-        public IEdge2<T> DrawEdgeTo(INode2<T> another)
+        public IEdge<T> DrawEdgeTo(INode2<T> another)
         {
             if (another == null)
             {
@@ -49,9 +49,9 @@ namespace TauCode.Algorithms.Graphs2
             return edge;
         }
 
-        public IReadOnlyCollection<IEdge2<T>> OutgoingEdges => _outgoingEdges;
+        public IReadOnlyCollection<IEdge<T>> OutgoingEdges => _outgoingEdges;
 
-        public IReadOnlyCollection<IEdge2<T>> IncomingEdges => _incomingEdges;
+        public IReadOnlyCollection<IEdge<T>> IncomingEdges => _incomingEdges;
 
         #endregion
     }
