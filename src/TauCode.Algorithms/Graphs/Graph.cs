@@ -15,20 +15,20 @@ namespace TauCode.Algorithms.Graphs
             internal NodeData(INode<T> node)
             {
                 this.Node = node;
-                this.OutgoingEdges = new HashSet<Edge<T>>();
-                this.IncomingEdges = new HashSet<Edge<T>>();
+                this.OutgoingEdges = new HashSet<IEdge<T>>();
+                this.IncomingEdges = new HashSet<IEdge<T>>();
             }
 
             private INode<T> Node { get; }
-            internal HashSet<Edge<T>> OutgoingEdges { get; }
-            internal HashSet<Edge<T>> IncomingEdges { get; }
+            internal HashSet<IEdge<T>> OutgoingEdges { get; }
+            internal HashSet<IEdge<T>> IncomingEdges { get; }
 
-            internal void AddOutgoingEdge(Edge<T> edge)
+            internal void AddOutgoingEdge(IEdge<T> edge)
             {
                 this.OutgoingEdges.Add(edge);
             }
 
-            internal void AddIncomingEdge(Edge<T> edge)
+            internal void AddIncomingEdge(IEdge<T> edge)
             {
                 this.IncomingEdges.Add(edge);
             }
@@ -247,21 +247,58 @@ namespace TauCode.Algorithms.Graphs
             //return clonedGraph;
         }
 
-        public void CaptureNodes(IReadOnlyList<INode<T>> otherGraphNodes)
+        public void CaptureNodes(IEnumerable<INode<T>> otherGraphNodes)
         {
-            throw new NotImplementedException();
-            //if (otherGraphNodes == null)
-            //{
-            //    throw new ArgumentNullException(nameof(otherGraphNodes));
-            //}
+            if (otherGraphNodes == null)
+            {
+                throw new ArgumentNullException(nameof(otherGraphNodes));
+            }
 
             //if (otherGraphNodes.Count == 0)
             //{
             //    return;
             //}
 
-            //Graph<T> otherGraph = null;
-            //var edgesToReview = new HashSet<Edge<T>>();
+            Graph<T> otherGraph = null;
+            var edgesToReview = new HashSet<IEdge<T>>();
+
+            var idx = 0;
+
+            foreach (var otherNode in otherGraphNodes)
+            {
+                if (otherNode == null)
+                {
+                    throw new ArgumentException("Nodes cannot contain nulls.", nameof(otherGraphNodes));
+                }
+
+                if (idx == 0)
+                {
+                    otherGraph = (Graph<T>)otherNode.Graph;
+                }
+
+                if (otherGraph == null)
+                {
+                    throw new ArgumentException("Nodes cannot contain detached ones.", nameof(otherGraphNodes));
+                }
+
+                if (otherNode.Graph == this)
+                {
+                    throw new ArgumentException("Cannot capture own nodes.", nameof(otherGraphNodes));
+                }
+
+                if (!ReferenceEquals(otherNode.Graph, otherGraph))
+                {
+                    throw new ArgumentException("Nodes must belong to a single graph.", nameof(otherGraphNodes));
+                }
+
+                this.EnrollNode(otherNode, otherGraph._nodes[otherNode]);
+                otherGraph.EvictNode(otherNode);
+
+                edgesToReview.UnionWith(otherNode.OutgoingEdges);
+                edgesToReview.UnionWith(otherNode.IncomingEdges);
+
+                idx++;
+            }
 
             //for (var i = 0; i < otherGraphNodes.Count; i++)
             //{
@@ -298,72 +335,72 @@ namespace TauCode.Algorithms.Graphs
             //    edgesToReview.UnionWith(otherNode.IncomingEdges);
             //}
 
-            //foreach (var edgeToReview in edgesToReview)
-            //{
-            //    var from = edgeToReview.From;
-            //    var to = edgeToReview.To;
+            foreach (var edgeToReview in edgesToReview)
+            {
+                var from = edgeToReview.From;
+                var to = edgeToReview.To;
 
-            //    var fromBelongsToMe = ReferenceEquals(from.Graph, this);
-            //    var toBelongsToMe = ReferenceEquals(to.Graph, this);
+                var fromBelongsToMe = ReferenceEquals(from.Graph, this);
+                var toBelongsToMe = ReferenceEquals(to.Graph, this);
 
-            //    Trace.Assert(fromBelongsToMe || toBelongsToMe);
+                Trace.Assert(fromBelongsToMe || toBelongsToMe);
 
-            //    if (fromBelongsToMe && toBelongsToMe)
-            //    {
-            //        this.EnrollEdge(edgeToReview);
-            //        otherGraph.EvictEdge(edgeToReview);
-            //    }
-            //    else if (fromBelongsToMe)
-            //    {
-            //        // 'from' belongs to me, 'to' doesn't
-            //        Trace.Assert(!toBelongsToMe);
+                if (fromBelongsToMe && toBelongsToMe)
+                {
+                    this.EnrollEdge(edgeToReview);
+                    otherGraph.EvictEdge(edgeToReview);
+                }
+                else if (fromBelongsToMe)
+                {
+                    // 'from' belongs to me, 'to' doesn't
+                    Trace.Assert(!toBelongsToMe);
 
-            //        var fromData = _nodes[from];
-            //        var deleted = fromData.OutgoingEdges.Remove(edgeToReview);
-            //        if (!deleted)
-            //        {
-            //            throw new GraphIntegrityViolationException(); // redundant check
-            //        }
+                    var fromData = _nodes[from];
+                    var deleted = fromData.OutgoingEdges.Remove(edgeToReview);
+                    if (!deleted)
+                    {
+                        throw new GraphIntegrityViolationException(); // redundant check
+                    }
 
-            //        var toData = otherGraph._nodes[to];
-            //        deleted = toData.IncomingEdges.Remove(edgeToReview);
-            //        if (!deleted)
-            //        {
-            //            throw new GraphIntegrityViolationException(); // redundant check
-            //        }
+                    var toData = otherGraph._nodes[to];
+                    deleted = toData.IncomingEdges.Remove(edgeToReview);
+                    if (!deleted)
+                    {
+                        throw new GraphIntegrityViolationException(); // redundant check
+                    }
 
-            //        otherGraph.EvictEdge(edgeToReview);
+                    otherGraph.EvictEdge(edgeToReview);
 
-            //        // this edge disappears from 'other' graph and is not enrolled to 'me'
-            //        edgeToReview.From = null;
-            //        edgeToReview.To = null;
-            //    }
-            //    else
-            //    {
-            //        // 'to' belongs to me, 'from' doesn't
-            //        Trace.Assert(!fromBelongsToMe); // todo1: replace all Trace.Assert with exceptions
+                    // this edge disappears from 'other' graph and is not enrolled to 'me'
+                    ((Edge<T>)edgeToReview).From = null;
+                    ((Edge<T>)edgeToReview).To = null;
+                }
+                else
+                {
+                    // 'to' belongs to me, 'from' doesn't
+                    Trace.Assert(!fromBelongsToMe); // todo1: replace all Trace.Assert with exceptions
 
-            //        var toData = _nodes[to];
-            //        var deleted = toData.IncomingEdges.Remove(edgeToReview);
-            //        if (!deleted)
-            //        {
-            //            throw new GraphIntegrityViolationException(); // redundant check
-            //        }
+                    var toData = _nodes[to];
+                    var deleted = toData.IncomingEdges.Remove(edgeToReview);
+                    if (!deleted)
+                    {
+                        throw new GraphIntegrityViolationException(); // redundant check
+                    }
 
-            //        var fromData = otherGraph._nodes[from];
-            //        deleted = fromData.OutgoingEdges.Remove(edgeToReview);
-            //        if (!deleted)
-            //        {
-            //            throw new GraphIntegrityViolationException(); // redundant check
-            //        }
+                    var fromData = otherGraph._nodes[from];
+                    deleted = fromData.OutgoingEdges.Remove(edgeToReview);
+                    if (!deleted)
+                    {
+                        throw new GraphIntegrityViolationException(); // redundant check
+                    }
 
-            //        otherGraph.EvictEdge(edgeToReview);
+                    otherGraph.EvictEdge(edgeToReview);
 
-            //        // this edge disappears from 'other' graph and is not enrolled to 'me'
-            //        edgeToReview.From = null;
-            //        edgeToReview.To = null;
-            //    }
-            //}
+                    // this edge disappears from 'other' graph and is not enrolled to 'me'
+                    ((Edge<T>)edgeToReview).From = null;
+                    ((Edge<T>)edgeToReview).To = null;
+                }
+            }
         }
 
         #endregion
@@ -430,13 +467,13 @@ namespace TauCode.Algorithms.Graphs
             return edge;
         }
 
-        internal IReadOnlyList<Edge<T>> GetOutgoingEdges(Node<T> node)
+        internal IReadOnlyList<IEdge<T>> GetOutgoingEdges(Node<T> node)
         {
             var nodeData = _nodes[node];
             return nodeData.OutgoingEdges.ToList();
         }
 
-        internal IReadOnlyList<Edge<T>> GetIncomingEdges(Node<T> node)
+        internal IReadOnlyList<IEdge<T>> GetIncomingEdges(Node<T> node)
         {
             var nodeData = _nodes[node];
             return nodeData.IncomingEdges.ToList();
@@ -456,7 +493,7 @@ namespace TauCode.Algorithms.Graphs
             }
         }
 
-        private void EnrollNode(Node<T> otherNode, NodeData otherNodeData)
+        private void EnrollNode(INode<T> otherNode, NodeData otherNodeData)
         {
             var valid =
                 otherNode != null &&
@@ -474,7 +511,7 @@ namespace TauCode.Algorithms.Graphs
             otherNode.Graph = this;
         }
 
-        private void EvictNode(Node<T> existingNode)
+        private void EvictNode(INode<T> existingNode)
         {
             var valid =
                 existingNode != null &&
@@ -490,13 +527,13 @@ namespace TauCode.Algorithms.Graphs
             _nodes.Remove(existingNode);
         }
 
-        private void EnrollEdge(Edge<T> otherEdge)
+        private void EnrollEdge(IEdge<T> otherEdge)
         {
             var valid =
                 otherEdge != null &&
                 otherEdge.From.Graph == this &&
                 otherEdge.To.Graph == this &&
-                !_edges.Contains((IEdge<T>) otherEdge);
+                !_edges.Contains(otherEdge);
 
             if (!valid)
             {
@@ -506,7 +543,7 @@ namespace TauCode.Algorithms.Graphs
             _edges.Add(otherEdge);
         }
 
-        private void EvictEdge(Edge<T> existingEdge)
+        private void EvictEdge(IEdge<T> existingEdge)
         {
             var valid =
                 existingEdge != null &&

@@ -25,6 +25,6 @@ namespace TauCode.Algorithms.Graphs
 
         Graph<T> Clone();
 
-        void CaptureNodes(IReadOnlyList<INode<T>> otherGraphNodes);
+        void CaptureNodes(IEnumerable<INode<T>> otherGraphNodes);
     }
 }
