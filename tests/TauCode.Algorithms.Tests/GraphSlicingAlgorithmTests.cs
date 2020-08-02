@@ -75,39 +75,44 @@ namespace TauCode.Algorithms.Tests
 
             // 0
             CollectionAssert.AreEquivalent(
+                new string[] { "a", "b", "c", "f" },
                 result[0].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "a", "b", "c", "f" });
-            Assert.That(result[0].Edges, Is.Empty);
+                    .ToArray()
+                );
+            Assert.That(result[0].GetEdges(), Is.Empty);
 
             // 1
             CollectionAssert.AreEquivalent(
+                new string[] { "d", "e", "i", "j", "k" },
                 result[1].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "d", "e", "i", "j", "k" });
-            Assert.That(result[1].Edges, Is.Empty);
+                    .ToArray()
+                );
+            Assert.That(result[1].GetEdges(), Is.Empty);
 
             // 2
             CollectionAssert.AreEquivalent(
+                new string[] { "h", "o", "q" },
                 result[2].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "h", "o", "q" });
-            Assert.That(result[2].Edges, Is.Empty);
+                    .ToArray()
+                );
+            Assert.That(result[2].GetEdges(), Is.Empty);
 
             // 3
             CollectionAssert.AreEquivalent(
+                new string[] { "m", "n", "g", "l", "p" }/*.OrderBy(x => x)*/,
                 result[3].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "m", "n", "g", "l", "p" }.OrderBy(x => x));
-            Assert.That(result[3].Edges, Has.Count.EqualTo(5));
+                    .ToArray()
+                );
+
+            Assert.That(result[3].GetEdges(), Has.Count.EqualTo(5));
 
             var clonedM = result[3].GetNode("m");
             var clonedN = result[3].GetNode("n");
@@ -115,47 +120,46 @@ namespace TauCode.Algorithms.Tests
             var clonedL = result[3].GetNode("l");
             var clonedP = result[3].GetNode("p");
 
-            var clonedEdgeMN = clonedM.OutgoingEdges.Single();
-            var clonedEdgeNM = clonedN.OutgoingEdges.Single();
-            var clonedEdgePL = clonedP.OutgoingEdges.Single();
-            var clonedEdgeLG = clonedL.OutgoingEdges.Single();
-            var clonedEdgeGP = clonedG.OutgoingEdges.Single();
-
+            var clonedEdgeMN = clonedM.GetOutgoingEdgesLyingInGraph(result[3]).Single();
+            var clonedEdgeNM = clonedN.GetOutgoingEdgesLyingInGraph(result[3]).Single();
+            var clonedEdgePL = clonedP.GetOutgoingEdgesLyingInGraph(result[3]).Single();
+            var clonedEdgeLG = clonedL.GetOutgoingEdgesLyingInGraph(result[3]).Single();
+            var clonedEdgeGP = clonedG.GetOutgoingEdgesLyingInGraph(result[3]).Single();
 
             result[3].AssertNode(
                 clonedM,
-                new Node<string>[] { clonedN },
-                new Edge<string>[] { clonedEdgeMN },
-                new Node<string>[] { clonedN },
-                new Edge<string>[] { clonedEdgeNM });
+                new INode<string>[] { clonedN },
+                new IEdge<string>[] { clonedEdgeMN },
+                new INode<string>[] { clonedN },
+                new IEdge<string>[] { clonedEdgeNM });
 
             result[3].AssertNode(
                 clonedN,
-                new Node<string>[] { clonedM },
-                new Edge<string>[] { clonedEdgeNM },
-                new Node<string>[] { clonedM },
-                new Edge<string>[] { clonedEdgeMN });
+                new INode<string>[] { clonedM },
+                new IEdge<string>[] { clonedEdgeNM },
+                new INode<string>[] { clonedM },
+                new IEdge<string>[] { clonedEdgeMN });
 
             result[3].AssertNode(
                 clonedP,
-                new Node<string>[] { clonedL },
-                new Edge<string>[] { clonedEdgePL },
-                new Node<string>[] { clonedG },
-                new Edge<string>[] { clonedEdgeGP });
+                new INode<string>[] { clonedL },
+                new IEdge<string>[] { clonedEdgePL },
+                new INode<string>[] { clonedG },
+                new IEdge<string>[] { clonedEdgeGP });
 
             result[3].AssertNode(
                 clonedL,
-                new Node<string>[] { clonedG },
-                new Edge<string>[] { clonedEdgeLG },
-                new Node<string>[] { clonedP },
-                new Edge<string>[] { clonedEdgePL });
+                new INode<string>[] { clonedG },
+                new IEdge<string>[] { clonedEdgeLG },
+                new INode<string>[] { clonedP },
+                new IEdge<string>[] { clonedEdgePL });
 
             result[3].AssertNode(
                 clonedG,
-                new Node<string>[] { clonedP },
-                new Edge<string>[] { clonedEdgeGP },
-                new Node<string>[] { clonedL },
-                new Edge<string>[] { clonedEdgeLG });
+                new INode<string>[] { clonedP },
+                new IEdge<string>[] { clonedEdgeGP },
+                new INode<string>[] { clonedL },
+                new IEdge<string>[] { clonedEdgeLG });
         }
 
         [Test]
@@ -191,12 +195,13 @@ namespace TauCode.Algorithms.Tests
 
             // 0
             CollectionAssert.AreEquivalent(
+                new string[] { "a", "b", "c", "d", "e" },
                 result[0].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "a", "b", "c", "d", "e" });
-            Assert.That(result[0].Edges, Is.Empty);
+                    .ToArray()
+                );
+            Assert.That(result[0].GetEdges(), Is.Empty);
         }
 
         [Test]
@@ -226,22 +231,81 @@ namespace TauCode.Algorithms.Tests
 
             // 0
             CollectionAssert.AreEquivalent(
+                new string[] { "a", "b", "c", "d", "e" }.OrderBy(x => x),
                 result[0].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "a", "b", "c", "d", "e" }.OrderBy(x => x));
-            Assert.That(result[0].Edges, Is.Empty);
+                    .ToArray()
+                );
+            Assert.That(result[0].GetEdges(), Is.Empty);
 
             // 0
             CollectionAssert.AreEquivalent(
+                new string[] { "w", "y", "z" }.OrderBy(x => x),
                 result[1].Nodes
                     .Select(x => x.Value)
                     .OrderBy(x => x)
-                    .ToArray(),
-                new string[] { "w", "y", "z" }.OrderBy(x => x));
-            Assert.That(result[1].Edges, Is.Empty);
+                    .ToArray()
+                );
+            Assert.That(result[1].GetEdges(), Is.Empty);
 
+        }
+
+        [Test]
+        public void Slice_SelfReference_ReturnsValidSlices()
+        {
+            // Arrange
+            var a = this.Graph.AddNode("a");
+            var b = this.Graph.AddNode("b");
+            var c = this.Graph.AddNode("c");
+            var d = this.Graph.AddNode("d");
+            var e = this.Graph.AddNode("e");
+
+            var w = this.Graph.AddNode("w");
+            var y = this.Graph.AddNode("y");
+            var z = this.Graph.AddNode("z");
+
+            a.LinkTo(a);
+            e.LinkTo(e);
+
+            w.LinkTo(a, b);
+            y.LinkTo(d, e, a);
+            z.LinkTo(e, c);
+
+            // Act
+            var slicer = new GraphSlicingAlgorithm<string>(this.Graph);
+            var result = slicer.Slice();
+
+            // Assert
+            Assert.That(result, Has.Length.EqualTo(2));
+
+            // 0
+            CollectionAssert.AreEquivalent(
+                new string[] { "a", "b", "c", "d", "e" }.OrderBy(x => x),
+                result[0].Nodes
+                    .Select(x => x.Value)
+                    .OrderBy(x => x)
+                    .ToArray()
+                );
+
+            var edges = result[0].GetEdges();
+            Assert.That(edges, Has.Count.EqualTo(2));
+
+            var edge = edges.Single(x => x.From == a);
+            Assert.That(edge.To, Is.EqualTo(a));
+
+            edge = edges.Single(x => x.From == e);
+            Assert.That(edge.To, Is.EqualTo(e));
+
+            // 0
+            CollectionAssert.AreEquivalent(
+                new string[] { "w", "y", "z" }.OrderBy(x => x),
+                result[1].Nodes
+                    .Select(x => x.Value)
+                    .OrderBy(x => x)
+                    .ToArray()
+                );
+            Assert.That(result[1].GetEdges(), Is.Empty);
         }
     }
 }

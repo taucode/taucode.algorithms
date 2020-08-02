@@ -1,24 +1,31 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Linq;
-using NUnit.Framework;
 using TauCode.Algorithms.Graphs;
 
 namespace TauCode.Algorithms.Tests
 {
     internal static class TestHelper
     {
-        internal static Node<string> GetNode(this Graph<string> graph, string nodeValue)
+        internal static IEdge<string>[] LinkTo(this INode<string> node, params INode<string>[] otherNodes)
+        {
+            return otherNodes
+                .Select(node.DrawEdgeTo)
+                .ToArray();
+        }
+
+        internal static INode<string> GetNode(this IGraph<string> graph, string nodeValue)
         {
             return graph.Nodes.Single(x => x.Value == nodeValue);
         }
 
         internal static void AssertNode(
-            this Graph<string> graph,
-            Node<string> node,
-            Node<string>[] linkedToNodes,
-            Edge<string>[] linkedToEdges,
-            Node<string>[] linkedFromNodes,
-            Edge<string>[] linkedFromEdges)
+            this IGraph<string> graph,
+            INode<string> node,
+            INode<string>[] linkedToNodes,
+            IEdge<string>[] linkedToEdges,
+            INode<string>[] linkedFromNodes,
+            IEdge<string>[] linkedFromEdges)
         {
             if (linkedToNodes.Length != linkedToEdges.Length)
             {
@@ -30,17 +37,17 @@ namespace TauCode.Algorithms.Tests
                 throw new ArgumentException();
             }
 
-            Assert.That(node.Graph, Is.SameAs(graph));
+            Assert.That(graph.ContainsNode(node), Is.True);
 
             // check 'outgoing' edges
-            Assert.That(node.OutgoingEdges.Count, Is.EqualTo(linkedToNodes.Length));
+            Assert.That(node.GetOutgoingEdgesLyingInGraph(graph).Count, Is.EqualTo(linkedToNodes.Length));
 
-            foreach (var outgoingEdge in node.OutgoingEdges)
+            foreach (var outgoingEdge in node.GetOutgoingEdgesLyingInGraph(graph))
             {
                 Assert.That(outgoingEdge.From, Is.EqualTo(node));
-                
+
                 var to = outgoingEdge.To;
-                Assert.That(to.Graph, Is.EqualTo(graph));
+                Assert.That(graph.ContainsNode(to), Is.True);
                 Assert.That(to.IncomingEdges, Does.Contain(outgoingEdge));
 
                 var index = Array.IndexOf(linkedToNodes, to);
@@ -49,63 +56,20 @@ namespace TauCode.Algorithms.Tests
             }
 
             // check 'incoming' edges
-            Assert.That(node.IncomingEdges.Count, Is.EqualTo(linkedFromNodes.Length));
+            Assert.That(node.GetIncomingEdgesLyingInGraph(graph).Count, Is.EqualTo(linkedFromNodes.Length));
 
-            foreach (var incomingEdge in node.IncomingEdges)
+            foreach (var incomingEdge in node.GetIncomingEdgesLyingInGraph(graph))
             {
                 Assert.That(incomingEdge.To, Is.EqualTo(node));
 
                 var from = incomingEdge.From;
-                Assert.That(from.Graph, Is.EqualTo(graph));
+                Assert.That(graph.ContainsNode(from), Is.True);
                 Assert.That(from.OutgoingEdges, Does.Contain(incomingEdge));
 
                 var index = Array.IndexOf(linkedFromNodes, from);
                 Assert.That(index, Is.GreaterThanOrEqualTo(0));
                 Assert.That(incomingEdge, Is.SameAs(linkedFromEdges[index]));
             }
-        }
-
-        internal static Edge<string>[] LinkFrom(this Graph<string> graph, Node<string> node, Node<string>[] fromNodes)
-        {
-            return fromNodes
-                .Select(fromNode => fromNode.DrawEdgeTo(node))
-                .ToArray();
-        }
-
-        internal static Edge<string>[] LinkTo(this Node<string> node, params Node<string>[] otherNodes)
-        {
-            return otherNodes
-                .Select(node.DrawEdgeTo)
-                .ToArray();
-        }
-
-        internal static Node<string> AssertNodeExists(this Graph<string> graph, string nodeValue)
-        {
-            var node = graph.Nodes.Single(x => x.Value == nodeValue);
-            return node;
-        }
-
-        internal static void AssertEdgesExist(this Graph<string> graph, Node<string> node, Node<string>[] linkFromNodes)
-        {
-            Assert.That(node.Graph, Is.SameAs(graph));
-
-            foreach (var fromNode in linkFromNodes)
-            {
-                Assert.That(fromNode.Graph, Is.SameAs(graph));
-
-                var edge = node.IncomingEdges.Single(x => x.From == fromNode);
-                Assert.That(edge.To, Is.SameAs(node));
-                Assert.That(fromNode.OutgoingEdges, Does.Contain(edge));
-
-                Assert.That(graph.Edges, Does.Contain(edge));
-            }
-        }
-
-        internal static bool EdgeIsDetached<T>(this Edge<T> edge)
-        {
-            return
-                edge.From == null &&
-                edge.To == null;
         }
     }
 }

@@ -1,52 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TauCode.Algorithms.Graphs
 {
-    [DebuggerDisplay("{" + nameof(Value) + "}")]
-    public class Node<T>
+    public class Node<T> : INode<T>
     {
-        internal Node(Graph<T> graph, T value)
+        #region Fields
+
+        private readonly HashSet<Edge<T>> _outgoingEdges;
+        private readonly HashSet<Edge<T>> _incomingEdges;
+
+        #endregion
+
+        #region Constructor
+
+        public Node(T value)
         {
-            this.Graph = graph;
             this.Value = value;
+
+            _outgoingEdges = new HashSet<Edge<T>>();
+            _incomingEdges = new HashSet<Edge<T>>();
         }
 
-        public Graph<T> Graph { get; internal set; }
+        #endregion
 
-        public T Value { get; }
+        #region INode<T> Members
 
-        public Edge<T> DrawEdgeTo(Node<T> other)
+        public T Value { get; set; }
+
+        public IEdge<T> DrawEdgeTo(INode<T> another)
         {
-            this.CheckIsAttached();
-            return this.Graph.DrawEdge(this, other);
-        }
-
-        public IReadOnlyCollection<Edge<T>> OutgoingEdges
-        {
-            get
+            if (another == null)
             {
-                this.CheckIsAttached();
-                return this.Graph.GetOutgoingEdges(this);
+                throw new ArgumentNullException(nameof(another));
             }
+
+            var castedAnother = another as Node<T>;
+            if (castedAnother == null)
+            {
+                throw new ArgumentException($"Expected node of type '{typeof(Node<T>).FullName}'.", nameof(another));
+            }
+            
+            var edge = new Edge<T>(this, castedAnother);
+
+            this._outgoingEdges.Add(edge);
+            castedAnother._incomingEdges.Add(edge);
+
+            return edge;
         }
 
-        public IReadOnlyCollection<Edge<T>> IncomingEdges
+        public IReadOnlyCollection<IEdge<T>> OutgoingEdges => _outgoingEdges;
+
+        public IReadOnlyCollection<IEdge<T>> IncomingEdges => _incomingEdges;
+
+        #endregion
+
+        #region Internal
+
+        internal void RemoveOutgoingEdge(Edge<T> outgoingEdge)
         {
-            get
-            {
-                this.CheckIsAttached();
-                return this.Graph.GetIncomingEdges(this);
-            }
+            _outgoingEdges.Remove(outgoingEdge);
         }
 
-        private void CheckIsAttached()
+        internal void RemoveIncomingEdge(Edge<T> incomingEdge)
         {
-            if (this.Graph == null)
-            {
-                throw new InvalidOperationException("Node is detached");
-            }
+            _incomingEdges.Remove(incomingEdge);
         }
+
+        #endregion
     }
 }

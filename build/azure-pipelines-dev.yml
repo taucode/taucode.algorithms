@@ -49,7 +49,6 @@ steps:
       $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\*.nupkg
       $echo_string = "##vso[task.setvariable variable=packageName]$a"
       echo $echo_string
-      
 
 - task: NuGetCommand@2
   inputs:
