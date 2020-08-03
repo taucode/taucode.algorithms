@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Algorithms</id>
-    <version>1.0.1.1-dev-2020-08-02-21-11</version>
+    <version>1.0.1.1</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/taucode/taucode.algorithms</projectUrl>
     <description>TauCode algorithms</description>
     <releaseNotes>
-      Migrating Azure DevOps
+      First release version.
     </releaseNotes>
     <tags>taucode algorithms</tags>
     <dependencies>
