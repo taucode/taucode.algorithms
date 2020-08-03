@@ -6,14 +6,13 @@ namespace TauCode.Algorithms.Tests
     [TestFixture]
     public class GraphTestBase
     {
-        protected Graph<string> Graph { get; set; }
+        protected IGraph<string> Graph { get; set; }
 
         [SetUp]
         public void SetUpBase()
         {
             this.Graph = new Graph<string>()
             {
-                Name = "SutGraph", // system under test
             };
         }
 

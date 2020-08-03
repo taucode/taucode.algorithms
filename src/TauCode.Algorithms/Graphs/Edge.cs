@@ -1,69 +1,77 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TauCode.Algorithms.Graphs
 {
-    [DebuggerDisplay("{From.Value} -> {To.Value}")]
-    public class Edge<T>
+    internal class Edge<T> : IEdge<T>
     {
-        private readonly Dictionary<string, object> _properties;
+        #region Fields
+
+        private Node<T> _from;
+        private Node<T> _to;
+        private bool _isAlive;
+
+        #endregion
+
+        #region Constructor
 
         internal Edge(Node<T> from, Node<T> to)
         {
-            // 'from' and 'to' cannot be nulls by design
+            // arg checks omitted since the type is internal.
 
-            this.From = from;
-            this.To = to;
-
-            _properties = new Dictionary<string, object>();
+            _from = from;
+            _to = to;
+            _isAlive = true;
         }
 
-        public Node<T> From { get; internal set; }
-        public Node<T> To { get; internal set; }
+        #endregion
 
-        // todo1[ak] ut properties funcitonality
+        #region IEdge<T> Members
 
-        public void SetProperty(string propertyName, object propertyValue)
+        public INode<T> From
         {
-            if (propertyName == null)
+            get
             {
-                throw new ArgumentNullException(nameof(propertyName));
-            }
+                this.CheckAlive();
 
-            _properties[propertyName] = propertyValue;
+                return _from;
+            }
         }
 
-        public object GetProperty(string propertyName)
+        public INode<T> To
         {
-            if (propertyName == null)
+            get
             {
-                throw new ArgumentNullException(nameof(propertyName));
-            }
+                this.CheckAlive();
 
-            if (!_properties.ContainsKey(propertyName))
-            {
-                throw new KeyNotFoundException($"Property '{propertyName}' not found");
+                return _to;
             }
-
-            return _properties[propertyName];
         }
 
-        public TProperty GetProperty<TProperty>(string propertyName)
+        public void Disappear()
         {
-            return (TProperty)GetProperty(propertyName);
+            this.CheckAlive();
+
+            _from.RemoveOutgoingEdge(this);
+            _to.RemoveIncomingEdge(this);
+
+            _from = null;
+            _to = null;
+
+            _isAlive = false;
         }
 
-        public bool HasProperty(string propertyName)
+        #endregion
+
+        #region Private
+
+        private void CheckAlive()
         {
-            if (propertyName == null)
+            if (!_isAlive)
             {
-                throw new ArgumentNullException(nameof(propertyName));
+                throw new InvalidOperationException("Edge is not alive.");
             }
-
-            return _properties.ContainsKey(propertyName);
         }
 
-        public IReadOnlyCollection<string> PropertyNames => _properties.Keys;
+        #endregion
     }
 }
