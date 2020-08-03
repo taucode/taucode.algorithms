@@ -13,44 +13,22 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  nuspecName: '_set_by_task_'
   packageName: '_set_by_task_'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'pack'
-    packagesToPack: 'nuget\TauCode.Algorithms.nuspec'
-    versioningScheme: 'off'
-
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      # Write your PowerShell commands here.
-      
-      $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\*.nupkg
-      $echo_string = "##vso[task.setvariable variable=packageName]$a"
+      $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\nuget\*.nuspec
+      $a
+      $echo_string = "##vso[task.setvariable variable=nuspecName]$a"
       echo $echo_string
 
-- task: NuGetCommand@2
+steps:
+- task: PowerShell@2
   inputs:
-    command: 'custom'
-    arguments: 'push $(Build.ArtifactStagingDirectory)\$(packageName) -ApiKey az_dummy -Source "taucode"'
+    targetType: 'inline'
+    script: |
+      Write-Host $(nuspecName)
