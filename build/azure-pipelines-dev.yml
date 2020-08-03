@@ -21,6 +21,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      dir
       $a = cmd /r dir /b $(Build.ArtifactStagingDirectory)\nuget\*.nuspec
       $a
       $echo_string = "##vso[task.setvariable variable=nuspecName]$a"
