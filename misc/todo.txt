@@ -1,3 +1,3 @@
 2020-08-01
 ==========
-    1. GraphSlicingAlgorithm has error: if a node points to itself - should not be counted as "dependent".
++   1. GraphSlicingAlgorithm has error: if a node points to itself - should not be counted as "dependent".
