@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TauCode.Lab.Algorithms
+namespace TauCode.Algorithms
 {
     public interface IAlgorithm
     {

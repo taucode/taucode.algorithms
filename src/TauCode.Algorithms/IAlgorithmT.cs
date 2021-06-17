@@ -1,4 +1,4 @@
-namespace TauCode.Lab.Algorithms
+namespace TauCode.Algorithms
 {
     public interface IAlgorithm<TInput, out TOutput> : IAlgorithm
     {
